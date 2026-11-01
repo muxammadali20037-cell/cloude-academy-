@@ -4,13 +4,13 @@
   "provider": "mms",
   "voice": "facebook/mms-tts-uzb-script_cyrillic",
   "license": "CC-BY-NC-4.0 (faqat sinov, tijoriy emas)",
-  "generatedAt": "2026-11-01T18:31:34.702Z",
-  "durationSeconds": 159.427,
-  "mp3Seconds": 159.48,
+  "generatedAt": "2026-11-01T18:38:06.695Z",
+  "durationSeconds": 161.073,
+  "mp3Seconds": 161.136,
   "warnings": [],
   "asr": {
     "model": "islomov/rubaistt_v2_medium",
-    "cer": 0.022
+    "cer": 0.018
   },
   "cues": [
     {
@@ -145,15 +145,15 @@
     },
     {
       "id": "c11",
-      "speech": "Birinchi marta kirsangiz, avval imeyl yoki Gugl orqali akkaunt yaratasiz.",
-      "seconds": 5.326,
-      "charsPerSecond": 13.7,
-      "rmsDb": -26.4,
-      "longestPause": 0.44,
+      "speech": "Birinchi marta kirsangiz, avval elektron pochta yoki Gugl orqali akkaunt yaratasiz.",
+      "seconds": 6.972,
+      "charsPerSecond": 11.9,
+      "rmsDb": -26.9,
+      "longestPause": 0.56,
       "asr": {
         "id": "c11",
-        "transcript": "birinchi marta kirsangiz, avval yangi yil yoki google orqali akkaunt yaratasiz.",
-        "cer": 0.132
+        "transcript": "birinchi marta kirsangiz, avval elektron pochta yoki google orqali akkaunt yaratasiz.",
+        "cer": 0.039
       }
     },
     {

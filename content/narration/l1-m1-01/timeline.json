@@ -4,18 +4,18 @@
   "lessonId": "f19a4e16-518f-4283-96e0-185d6d02e55b",
   "title": "Claude nima?",
   "status": "review",
-  "scriptHash": "7fcab327f131c87968a9c7c6b8474628aa2651c0d3702761b0fa2de71508016c",
-  "duration": 159.427,
+  "scriptHash": "910e54d2e9751bf7fa5c7e38488ffa4b85158c2cc23054249b65a032a5ee0f58",
+  "duration": 161.073,
   "audio": {
-    "src": "/narration/l1-m1-01/narration.mp3?v=375a95df1c63",
+    "src": "/narration/l1-m1-01/narration.mp3?v=3048c6475c8a",
     "provider": "mms",
     "voice": "facebook/mms-tts-uzb-script_cyrillic",
     "license": "CC-BY-NC-4.0 (faqat sinov, tijoriy emas)",
     "commercialUse": false,
-    "generatedAt": "2026-11-01T18:31:34.702Z",
-    "bytes": 1276077
+    "generatedAt": "2026-11-01T18:38:06.695Z",
+    "bytes": 1289325
   },
-  "subtitles": "/narration/l1-m1-01/subtitles.vtt?v=375a95df1c63",
+  "subtitles": "/narration/l1-m1-01/subtitles.vtt?v=3048c6475c8a",
   "scenes": {
     "intro": {
       "type": "title",
@@ -341,9 +341,9 @@
       "text": "Birinchi marta kirsangiz, avval email yoki Google orqali akkaunt yaratasiz.",
       "highlight": "notice",
       "start": 63.659,
-      "end": 69.795,
+      "end": 71.441,
       "audioStart": 64.089,
-      "audioEnd": 69.415,
+      "audioEnd": 71.061,
       "actions": [
         {
           "do": "reveal",
@@ -360,17 +360,17 @@
       "scene": "browser",
       "text": "Endi sahifa pastidagi xabar maydoniga bosamiz. Savol shu yerga yoziladi.",
       "highlight": "input",
-      "start": 69.795,
-      "end": 77.581,
-      "audioStart": 70.765,
-      "audioEnd": 77.201,
+      "start": 71.441,
+      "end": 79.227,
+      "audioStart": 72.411,
+      "audioEnd": 78.847,
       "actions": [
         {
           "do": "click",
           "target": "input",
-          "start": 69.795,
-          "visibleAt": 70.395,
-          "end": 70.745
+          "start": 71.441,
+          "visibleAt": 72.041,
+          "end": 72.391
         }
       ]
     },
@@ -379,18 +379,18 @@
       "purpose": "what",
       "scene": "browser",
       "text": "Savolimizni yozamiz: avval kasbimizni aytamiz, keyin aniq misollar soʻraymiz.",
-      "start": 77.581,
-      "end": 84.449,
-      "audioStart": 77.781,
-      "audioEnd": 84.069,
+      "start": 79.227,
+      "end": 86.095,
+      "audioStart": 79.427,
+      "audioEnd": 85.715,
       "actions": [
         {
           "do": "type",
           "target": "input",
           "text": "Men buxgalterman. Claude ish kunimda qaysi 3 ta vazifada yordam bera oladi? Aniq misollar bilan tushuntir.",
-          "start": 77.581,
-          "visibleAt": 77.661,
-          "end": 81.998
+          "start": 79.227,
+          "visibleAt": 79.307,
+          "end": 83.644
         }
       ]
     },
@@ -400,10 +400,10 @@
       "scene": "browser",
       "text": "Kasbingizni yozganingiz uchun Claude javobni aynan sizning ishingizga moslab beradi.",
       "highlight": "focus",
-      "start": 84.449,
-      "end": 91.079,
-      "audioStart": 84.719,
-      "audioEnd": 90.699,
+      "start": 86.095,
+      "end": 92.725,
+      "audioStart": 86.365,
+      "audioEnd": 92.345,
       "actions": []
     },
     {
@@ -412,24 +412,24 @@
       "scene": "browser",
       "text": "Oʻng tomondagi yuborish tugmasini bosamiz.",
       "highlight": "send",
-      "start": 91.079,
-      "end": 95.615,
-      "audioStart": 92.349,
-      "audioEnd": 95.235,
+      "start": 92.725,
+      "end": 97.261,
+      "audioStart": 93.995,
+      "audioEnd": 96.881,
       "actions": [
         {
           "do": "click",
           "target": "send",
-          "start": 91.079,
-          "visibleAt": 91.679,
-          "end": 92.029
+          "start": 92.725,
+          "visibleAt": 93.325,
+          "end": 93.675
         },
         {
           "do": "submit",
           "target": "input",
-          "start": 91.779,
-          "visibleAt": 91.879,
-          "end": 92.179
+          "start": 93.425,
+          "visibleAt": 93.525,
+          "end": 93.825
         }
       ]
     },
@@ -439,17 +439,17 @@
       "scene": "browser",
       "text": "Bir necha soniyada javob paydo boʻladi. Claude uni qatorma-qator yozib chiqadi.",
       "highlight": "answer",
-      "start": 95.615,
-      "end": 102.129,
-      "audioStart": 96.135,
-      "audioEnd": 101.749,
+      "start": 97.261,
+      "end": 103.775,
+      "audioStart": 97.781,
+      "audioEnd": 103.395,
       "actions": [
         {
           "do": "stream",
           "target": "answer",
-          "start": 95.615,
-          "visibleAt": 95.865,
-          "end": 98.215
+          "start": 97.261,
+          "visibleAt": 97.511,
+          "end": 99.861
         }
       ]
     },
@@ -458,25 +458,25 @@
       "purpose": "what",
       "scene": "browser",
       "text": "Javobni oʻqing. Tushunarsiz joy boʻlsa, aniqlashtiruvchi savol yozing — bu odatiy usul.",
-      "start": 102.129,
-      "end": 110.457,
-      "audioStart": 103.029,
-      "audioEnd": 109.807,
+      "start": 103.775,
+      "end": 112.103,
+      "audioStart": 104.675,
+      "audioEnd": 111.453,
       "actions": [
         {
           "do": "click",
           "target": "input",
-          "start": 102.129,
-          "visibleAt": 102.729,
-          "end": 103.079
+          "start": 103.775,
+          "visibleAt": 104.375,
+          "end": 104.725
         },
         {
           "do": "type",
           "target": "input",
           "text": "2-misolni batafsilroq tushuntir.",
-          "start": 102.829,
-          "visibleAt": 102.909,
-          "end": 104.162
+          "start": 104.475,
+          "visibleAt": 104.555,
+          "end": 105.808
         }
       ]
     },
@@ -485,17 +485,17 @@
       "purpose": "error",
       "scene": "fix",
       "text": "Agar biror narsa ishlamasa, xavotir olmang. Koʻp uchraydigan holatlarni koʻrib chiqamiz.",
-      "start": 110.457,
-      "end": 117.781,
-      "audioStart": 111.077,
-      "audioEnd": 117.401,
+      "start": 112.103,
+      "end": 119.427,
+      "audioStart": 112.723,
+      "audioEnd": 119.047,
       "actions": [
         {
           "do": "reveal",
           "target": "heading",
-          "start": 110.807,
-          "visibleAt": 110.957,
-          "end": 111.207
+          "start": 112.453,
+          "visibleAt": 112.603,
+          "end": 112.853
         }
       ]
     },
@@ -505,17 +505,17 @@
       "scene": "fix",
       "text": "Sahifa ochilmasa, internet aloqasini tekshirib, sahifani yangilang.",
       "highlight": "reload",
-      "start": 117.781,
-      "end": 124.003,
-      "audioStart": 118.211,
-      "audioEnd": 123.623,
+      "start": 119.427,
+      "end": 125.649,
+      "audioStart": 119.857,
+      "audioEnd": 125.269,
       "actions": [
         {
           "do": "reveal",
           "target": "reload",
-          "start": 117.781,
-          "visibleAt": 117.931,
-          "end": 118.181
+          "start": 119.427,
+          "visibleAt": 119.577,
+          "end": 119.827
         }
       ]
     },
@@ -525,17 +525,17 @@
       "scene": "fix",
       "text": "Limit tugagani haqida xabar chiqsa, biroz kuting: bepul rejada limit vaqt oʻtib yangilanadi.",
       "highlight": "limit",
-      "start": 124.003,
-      "end": 132.309,
-      "audioStart": 124.433,
-      "audioEnd": 131.929,
+      "start": 125.649,
+      "end": 133.955,
+      "audioStart": 126.079,
+      "audioEnd": 133.575,
       "actions": [
         {
           "do": "reveal",
           "target": "limit",
-          "start": 124.003,
-          "visibleAt": 124.153,
-          "end": 124.403
+          "start": 125.649,
+          "visibleAt": 125.799,
+          "end": 126.049
         }
       ]
     },
@@ -545,17 +545,17 @@
       "scene": "fix",
       "text": "Eng muhimi: Claude ham xato qilishi mumkin. Raqam, sana va nomlarni rasmiy manbadan tekshiring.",
       "highlight": "verify",
-      "start": 132.309,
-      "end": 141.225,
-      "audioStart": 132.739,
-      "audioEnd": 140.575,
+      "start": 133.955,
+      "end": 142.871,
+      "audioStart": 134.385,
+      "audioEnd": 142.221,
       "actions": [
         {
           "do": "reveal",
           "target": "verify",
-          "start": 132.309,
-          "visibleAt": 132.459,
-          "end": 132.709
+          "start": 133.955,
+          "visibleAt": 134.105,
+          "end": 134.355
         }
       ]
     },
@@ -565,24 +565,24 @@
       "scene": "task",
       "text": "Endi navbat sizda. Avval claude.ai saytini oching.",
       "highlight": "open",
-      "start": 141.225,
-      "end": 148.733,
-      "audioStart": 142.165,
-      "audioEnd": 148.353,
+      "start": 142.871,
+      "end": 150.379,
+      "audioStart": 143.811,
+      "audioEnd": 149.999,
       "actions": [
         {
           "do": "reveal",
           "target": "heading",
-          "start": 141.575,
-          "visibleAt": 141.725,
-          "end": 141.975
+          "start": 143.221,
+          "visibleAt": 143.371,
+          "end": 143.621
         },
         {
           "do": "reveal",
           "target": "open",
-          "start": 141.735,
-          "visibleAt": 141.885,
-          "end": 142.135
+          "start": 143.381,
+          "visibleAt": 143.531,
+          "end": 143.781
         }
       ]
     },
@@ -592,17 +592,17 @@
       "scene": "task",
       "text": "Oʻz kasbingiz haqida xuddi shunday savol bering.",
       "highlight": "ask",
-      "start": 148.733,
-      "end": 152.807,
-      "audioStart": 149.163,
-      "audioEnd": 152.427,
+      "start": 150.379,
+      "end": 154.453,
+      "audioStart": 150.809,
+      "audioEnd": 154.073,
       "actions": [
         {
           "do": "reveal",
           "target": "ask",
-          "start": 148.733,
-          "visibleAt": 148.883,
-          "end": 149.133
+          "start": 150.379,
+          "visibleAt": 150.529,
+          "end": 150.779
         }
       ]
     },
@@ -612,17 +612,17 @@
       "scene": "task",
       "text": "Soʻng bitta misolni batafsilroq tushuntirib berishini soʻrang. Keyingi darsda koʻrishguncha!",
       "highlight": "followup",
-      "start": 152.807,
-      "end": 159.427,
-      "audioStart": 153.237,
-      "audioEnd": 159.047,
+      "start": 154.453,
+      "end": 161.073,
+      "audioStart": 154.883,
+      "audioEnd": 160.693,
       "actions": [
         {
           "do": "reveal",
           "target": "followup",
-          "start": 152.807,
-          "visibleAt": 152.957,
-          "end": 153.207
+          "start": 154.453,
+          "visibleAt": 154.603,
+          "end": 154.853
         }
       ]
     }
