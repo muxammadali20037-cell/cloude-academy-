@@ -15,7 +15,7 @@
     { "match": "claude.ai", "say": "klod nuqta ey ay" },
     { "match": "Claude", "say": "Klod" },
     { "match": "Anthropic", "say": "Antropik" },
-    { "match": "email", "say": "imeyl" },
+    { "match": "email", "say": "elektron pochta" },
     { "match": "Google", "say": "Gugl" }
   ],
   "scenes": {

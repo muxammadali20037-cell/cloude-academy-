@@ -5,7 +5,8 @@
  * hisoblanganda ham shu o'lchamlar ishlatiladi. Shuning uchun kursor har doim
  * aynan tugma ustiga boradi — ekran o'lchamidan qat'i nazar.
  */
-import { STAGE, type ListScene, type Scene } from "./schema.ts";
+import { STAGE } from "./constants.ts";
+import type { ListScene, Scene } from "./schema.ts";
 
 export type Rect = { x: number; y: number; w: number; h: number };
 

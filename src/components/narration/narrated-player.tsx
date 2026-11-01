@@ -16,7 +16,8 @@ import {
 import { useCallback, useEffect, useId, useMemo, useRef, useState, useSyncExternalStore, type KeyboardEvent } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { PURPOSE_LABELS, type Timeline } from "@/lib/narration/schema";
+import { PURPOSE_LABELS } from "@/lib/narration/constants";
+import type { Timeline } from "@/lib/narration/schema";
 import { stageStateAt } from "@/lib/narration/stage-state";
 import { cueIndexAt } from "@/lib/narration/timeline";
 import { cn } from "@/lib/utils";

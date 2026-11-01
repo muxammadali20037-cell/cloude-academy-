@@ -3,7 +3,8 @@
 import { ArrowUp, CornerDownLeft, MousePointer2, TriangleAlert } from "lucide-react";
 import { useLayoutEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { BROWSER_LAYOUT, listLayout, TITLE_LAYOUT, type Rect } from "@/lib/narration/layout";
-import { STAGE, type BrowserScene, type ListScene, type TitleScene } from "@/lib/narration/schema";
+import { STAGE } from "@/lib/narration/constants";
+import type { BrowserScene, ListScene, TitleScene } from "@/lib/narration/schema";
 import type { StageState } from "@/lib/narration/stage-state";
 import { cn } from "@/lib/utils";
 
