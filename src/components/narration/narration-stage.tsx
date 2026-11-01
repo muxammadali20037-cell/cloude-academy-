@@ -123,13 +123,13 @@ function withFocus(text: string, focus: string | undefined, strength: number): R
 function TitleView({ scene, state }: { scene: TitleScene; state: StageState }) {
   return (
     <>
-      <p className="text-[18px] font-medium tracking-wide text-accent-fg" style={{ ...box(TITLE_LAYOUT.eyebrow), ...rise(state.revealed.eyebrow) }}>
+      <p className="motion-reduce:transform-none! text-[18px] font-medium tracking-wide text-accent-fg" style={{ ...box(TITLE_LAYOUT.eyebrow), ...rise(state.revealed.eyebrow) }}>
         {scene.eyebrow}
       </p>
-      <p className="text-[64px] leading-none font-semibold tracking-[-0.03em] text-fg" style={{ ...box(TITLE_LAYOUT.title), ...rise(state.revealed.title) }}>
+      <p className="motion-reduce:transform-none! text-[64px] leading-none font-semibold tracking-[-0.03em] text-fg" style={{ ...box(TITLE_LAYOUT.title), ...rise(state.revealed.title) }}>
         {scene.title}
       </p>
-      <p className="text-[26px] leading-snug text-fg-muted" style={{ ...box(TITLE_LAYOUT.lead), ...rise(state.revealed.lead) }}>
+      <p className="motion-reduce:transform-none! text-[26px] leading-snug text-fg-muted" style={{ ...box(TITLE_LAYOUT.lead), ...rise(state.revealed.lead) }}>
         {scene.lead}
       </p>
       <div className="absolute bottom-[96px] left-[72px] h-[6px] w-[120px] rounded-full bg-primary" style={{ opacity: state.revealed.lead ?? 0 }} />
@@ -141,7 +141,7 @@ function ListView({ scene, state }: { scene: ListScene; state: StageState }) {
   const layout = listLayout(scene);
   return (
     <>
-      <p className="text-[36px] leading-tight font-semibold tracking-[-0.02em] text-fg" style={{ ...box(layout.heading), ...rise(state.revealed.heading) }}>
+      <p className="motion-reduce:transform-none! text-[36px] leading-tight font-semibold tracking-[-0.02em] text-fg" style={{ ...box(layout.heading), ...rise(state.revealed.heading) }}>
         {scene.heading}
       </p>
       {scene.items.map((item, index) => {
@@ -152,7 +152,7 @@ function ListView({ scene, state }: { scene: ListScene; state: StageState }) {
             <Spotlight rect={rect} strength={highlightStrength(state, item.id)} />
             <div
               className={cn(
-                "flex items-center gap-5 rounded-[14px] px-5",
+                "flex items-center gap-5 rounded-[14px] px-5 motion-reduce:transform-none!",
                 lead ? "bg-accent-soft text-[26px] font-semibold text-accent-fg" : "bg-surface text-[24px] font-medium text-fg",
               )}
               style={{ ...box(rect), ...rise(state.revealed[item.id]) }}
@@ -209,7 +209,7 @@ function BrowserView({ scene, state }: { scene: BrowserScene; state: StageState 
       <div style={{ opacity: page }}>
         <Spotlight rect={L.notice} strength={highlightStrength(state, "notice")} radius={22} inset={5} />
         <div
-          className="flex items-center justify-center rounded-full bg-accent-soft text-[17px] font-medium text-accent-fg"
+          className="flex items-center justify-center rounded-full bg-accent-soft text-[17px] motion-reduce:transform-none! font-medium text-accent-fg"
           style={{ ...box(L.notice), ...rise(state.revealed.notice) }}
         >
           {scene.notice}

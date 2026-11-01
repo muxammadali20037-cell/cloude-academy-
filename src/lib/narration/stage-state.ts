@@ -68,7 +68,6 @@ export function stageStateAt(timeline: Timeline, time: number): StageState {
   let cursorTo = CURSOR_REST;
   let cursorStart = -Infinity;
   let clickAt: number | null = null;
-  let cursorUsed = false;
 
   for (let i = blockStart; i <= cueIndex; i += 1) {
     for (const action of cues[i].actions) {
@@ -103,7 +102,6 @@ export function stageStateAt(timeline: Timeline, time: number): StageState {
           cursorFrom = cursorPosition(cursorFrom, cursorTo, cursorStart, action.start);
           cursorTo = centerOf(rect);
           cursorStart = action.start;
-          cursorUsed = true;
           clickAt = action.do === "click" ? action.visibleAt : null;
           break;
         }
@@ -132,7 +130,7 @@ export function stageStateAt(timeline: Timeline, time: number): StageState {
     typingTarget,
     sent,
     streamed,
-    cursor: { ...position, visible: scene.type === "browser" && (cursorUsed || cueIndex >= blockStart), clickProgress },
+    cursor: { ...position, visible: scene.type === "browser", clickProgress },
     highlight,
     key,
     speaking: t >= cue.audioStart && t < cue.audioEnd,

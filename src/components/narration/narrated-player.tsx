@@ -108,8 +108,9 @@ export function NarratedPlayer({ timeline, className }: NarratedPlayerProps) {
   }, [seek, play]);
 
   const toggleFullscreen = useCallback(() => {
-    if (document.fullscreenElement) void document.exitFullscreen();
-    else void rootRef.current?.requestFullscreen();
+    // Ba'zi muhitlar (iframe, telefon) to'liq ekranni rad etadi — u holda hech narsa qilmaymiz.
+    if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
+    else rootRef.current?.requestFullscreen().catch(() => {});
   }, []);
 
   function onKeyDown(event: KeyboardEvent<HTMLElement>) {
