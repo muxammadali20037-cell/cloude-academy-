@@ -79,3 +79,31 @@ export function speechChunks(text: string): SpeechChunk[] {
   if (merged.length > 0) merged[merged.length - 1].pauseAfterMs = 0;
   return merged;
 }
+
+/**
+ * Ovozni tekshirish uchun: matnni solishtirishga tayyorlaydi (kichik harf,
+ * kirill, faqat harflar va bo'shliq). Nutqni tanish modeli lotin yoki kirillda
+ * yozishidan qat'i nazar, solishtirish bir xil yozuvda bo'ladi.
+ */
+export function normalizeForComparison(text: string, toCyrillic: (value: string) => string) {
+  return toCyrillic(text.toLowerCase())
+    .replace(/[^а-яёўғқҳъь\s]/g, " ")
+    .replace(/ъ/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+/** Belgilar bo'yicha xato ulushi (CER): 0 — aynan bir xil, 1 — butunlay boshqa. */
+export function characterErrorRate(reference: string, hypothesis: string) {
+  if (reference.length === 0) return hypothesis.length === 0 ? 0 : 1;
+  let previous = Array.from({ length: hypothesis.length + 1 }, (_, index) => index);
+  for (let i = 1; i <= reference.length; i += 1) {
+    const current = [i];
+    for (let j = 1; j <= hypothesis.length; j += 1) {
+      const cost = reference[i - 1] === hypothesis[j - 1] ? 0 : 1;
+      current[j] = Math.min(previous[j] + 1, current[j - 1] + 1, previous[j - 1] + cost);
+    }
+    previous = current;
+  }
+  return previous[hypothesis.length] / reference.length;
+}

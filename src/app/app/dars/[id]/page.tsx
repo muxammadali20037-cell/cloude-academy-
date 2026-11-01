@@ -4,6 +4,7 @@ import Link from "next/link";
 import { EmptyState } from "@/components/learning/empty-state";
 import { LessonAside } from "@/components/learning/lesson-aside";
 import { LessonPlayer } from "@/components/learning/lesson-player";
+import { getNarrationForLesson } from "@/lib/narration/registry";
 import { Button } from "@/components/ui/button";
 import { requireUser } from "@/lib/auth";
 import { getLessonForStudent, getMyLessonProgress } from "@/lib/data/learning";
@@ -75,6 +76,7 @@ export default async function LessonPage({ params }: PageProps<"/app/dars/[id]">
             mode="student"
             initialProgress={progress}
             videoConfigured={videoConfigured}
+            narration={getNarrationForLesson(lesson.id)}
             actions={actions}
           />
           <LessonAside lesson={lesson} />

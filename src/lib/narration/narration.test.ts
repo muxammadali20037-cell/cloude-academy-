@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { listFits, BROWSER_LAYOUT, centerOf } from "./layout";
 import { scriptSchema, timelineSchema, type NarrationScript } from "./schema";
 import { scriptHash } from "./script-hash";
-import { applyLexicon, speechChunks, spokenText } from "./speech-text";
+import { applyLexicon, characterErrorRate, normalizeForComparison, speechChunks, spokenText } from "./speech-text";
 import { stageStateAt } from "./stage-state";
 import { buildTimeline, cueIndexAt, missingPurposes, timelineProblems } from "./timeline";
 import { latinToCyrillic } from "./translit";
@@ -59,6 +59,21 @@ describe("talaffuz lug'ati va bo'laklash", () => {
       { text: "Salom", pauseAfterMs: 420 },
       { text: "Bu darsda boshlaymiz", pauseAfterMs: 0 },
     ]);
+  });
+});
+
+describe("ovozni matn bilan solishtirish", () => {
+  it("lotin va kirill yozuvi bir xil deb solishtiriladi", () => {
+    const a = normalizeForComparison("Oʻng tomondagi yuborish tugmasini bosamiz.", latinToCyrillic);
+    const b = normalizeForComparison("Ўнг томондаги юбориш тугмасини босамиз", latinToCyrillic);
+    expect(a).toBe(b);
+    expect(characterErrorRate(a, b)).toBe(0);
+  });
+
+  it("xato ulushi to'g'ri hisoblanadi", () => {
+    expect(characterErrorRate("салом", "салом")).toBe(0);
+    expect(characterErrorRate("салом", "салим")).toBeCloseTo(0.2);
+    expect(characterErrorRate("салом", "")).toBe(1);
   });
 });
 

@@ -20,7 +20,7 @@
  * Ovoz yaratish muvaffaqiyatsiz bo'lsa: eski (shu ssenariyga mos) ovoz saqlanadi,
  * mos ovoz bo'lmasa — ovozsiz zaxira vaqt shkalasi yoziladi va dastur 1 kod bilan tugaydi.
  */
-import { execFile } from "node:child_process";
+import { execFile, spawn } from "node:child_process";
 import { createHash } from "node:crypto";
 import { existsSync } from "node:fs";
 import { mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
@@ -28,11 +28,12 @@ import { join, resolve } from "node:path";
 import { promisify } from "node:util";
 import { scriptSchema, timelineSchema, type AudioInfo, type NarrationScript, type Timeline } from "../../src/lib/narration/schema.ts";
 import { scriptHash } from "../../src/lib/narration/script-hash.ts";
-import { spokenText } from "../../src/lib/narration/speech-text.ts";
+import { characterErrorRate, normalizeForComparison, spokenText } from "../../src/lib/narration/speech-text.ts";
+import { latinToCyrillic } from "../../src/lib/narration/translit.ts";
 import { buildTimeline, missingPurposes, timelineProblems } from "../../src/lib/narration/timeline.ts";
 import { toWebVtt } from "../../src/lib/narration/vtt.ts";
-import { azureProvider, mmsAvailable, mmsProvider, type Provider } from "./providers.ts";
-import { rmsDb, writeWav, type Pcm } from "./wav.ts";
+import { azureProvider, MAX_INTERNAL_SILENCE, mmsAvailable, mmsProvider, type Provider } from "./providers.ts";
+import { longestInternalSilence, rmsDb, writeWav, type Pcm } from "./wav.ts";
 
 const run = promisify(execFile);
 const ROOT = resolve(import.meta.dirname, "..", "..");
@@ -46,6 +47,11 @@ type ProviderChoice = "auto" | "azure" | "mms" | "none";
 const MIN_CUE_SECONDS = 0.5;
 const CHARS_PER_SECOND = { min: 6, max: 26 };
 const MIN_RMS_DB = -38;
+/** Generator mantig'i o'zgarsa oshiriladi — eski natijalar qayta yaratiladi. */
+const GENERATOR_VERSION = 2;
+/** Nutqni tanish orqali tekshiruv (NARRATION_ASR=1 bo'lsa, CI'da). */
+const ASR_MODEL = "islomov/rubaistt_v2_medium";
+const ASR_WARN_CER = 0.35;
 
 function parseArgs(argv: string[]) {
   const args = { keys: [] as string[], all: false, provider: "auto" as ProviderChoice, force: false };
@@ -126,30 +132,70 @@ async function assembleTrack(key: string, timeline: Timeline, clips: Record<stri
   const bytes = await readFile(mp3Path);
   await mkdir(join(PUBLIC, key), { recursive: true });
   await writeFile(join(PUBLIC, key, "narration.mp3"), bytes);
-  return { bytes: bytes.length, version: createHash("sha256").update(bytes).digest("hex").slice(0, 12), seconds };
+  return { bytes: bytes.length, version: createHash("sha256").update(bytes).digest("hex").slice(0, 12), seconds, wavPath };
 }
 
 function qualityReport(script: NarrationScript, speech: Record<string, string>, clips: Record<string, Pcm>) {
   const problems: string[] = [];
+  const warnings: string[] = [];
   const cues = script.cues.map((cue) => {
     const clip = clips[cue.id];
     const seconds = clip.samples.length / clip.sampleRate;
     const charsPerSecond = speech[cue.id].length / seconds;
     const loudness = rmsDb(clip.samples);
+    const longestPause = longestInternalSilence(clip);
     if (seconds < MIN_CUE_SECONDS) problems.push(`${cue.id}: juda qisqa (${seconds.toFixed(2)} s)`);
     if (charsPerSecond < CHARS_PER_SECOND.min || charsPerSecond > CHARS_PER_SECOND.max) {
       problems.push(`${cue.id}: nutq tezligi g'ayritabiiy (${charsPerSecond.toFixed(1)} belgi/s)`);
     }
     if (loudness < MIN_RMS_DB) problems.push(`${cue.id}: audio deyarli jim (${loudness.toFixed(1)} dBFS)`);
+    if (longestPause > MAX_INTERNAL_SILENCE + 0.25) warnings.push(`${cue.id}: gap ichida ${longestPause.toFixed(2)} s jimlik`);
     return {
       id: cue.id,
       speech: speech[cue.id],
       seconds: Number(seconds.toFixed(3)),
       charsPerSecond: Number(charsPerSecond.toFixed(1)),
       rmsDb: Number(loudness.toFixed(1)),
+      longestPause: Number(longestPause.toFixed(2)),
     };
   });
-  return { cues, problems };
+  return { cues, problems, warnings };
+}
+
+type AsrResult = { model: string; cer: number; cues: { id: string; transcript: string; cer: number }[]; warnings: string[] };
+
+/** Yaratilgan ovozni nutqni tanish modeli bilan qayta matnga aylantirib, ssenariy bilan solishtiradi. */
+async function asrCheck(timeline: Timeline, speech: Record<string, string>, trackWav: string): Promise<AsrResult> {
+  const wav16 = trackWav.replace(/\.wav$/, ".16k.wav");
+  await run("ffmpeg", ["-y", "-loglevel", "error", "-i", trackWav, "-ar", "16000", "-ac", "1", "-c:a", "pcm_s16le", wav16]);
+  const segments = timeline.cues.map((cue) => ({ id: cue.id, start: Math.max(0, cue.audioStart - 0.1), end: cue.audioEnd + 0.15 }));
+  const output = await new Promise<string>((resolvePromise, reject) => {
+    const child = spawn(process.env.NARRATION_PYTHON || "python3", [join(import.meta.dirname, "asr_check.py")], { stdio: ["pipe", "pipe", "inherit"] });
+    let stdout = "";
+    child.stdout.on("data", (chunk) => (stdout += chunk));
+    child.on("error", reject);
+    child.on("close", (code) => (code === 0 ? resolvePromise(stdout) : reject(new Error(`asr_check.py xato (kod ${code})`))));
+    child.stdin.end(JSON.stringify({ model: ASR_MODEL, wav: wav16, segments }));
+  });
+  const transcripts = new Map<string, string>();
+  for (const line of output.split("\n")) {
+    if (!line.trim().startsWith("{")) continue;
+    const item = JSON.parse(line) as { id: string; text: string };
+    transcripts.set(item.id, item.text);
+  }
+  let errors = 0;
+  let total = 0;
+  const warnings: string[] = [];
+  const cues = timeline.cues.map((cue) => {
+    const reference = normalizeForComparison(speech[cue.id], latinToCyrillic);
+    const transcript = transcripts.get(cue.id) ?? "";
+    const cer = characterErrorRate(reference, normalizeForComparison(transcript, latinToCyrillic));
+    errors += cer * reference.length;
+    total += reference.length;
+    if (cer > ASR_WARN_CER) warnings.push(`${cue.id}: ovoz matndan farq qilishi mumkin (CER ${(cer * 100).toFixed(0)}%)`);
+    return { id: cue.id, transcript, cer: Number(cer.toFixed(3)) };
+  });
+  return { model: ASR_MODEL, cer: Number((errors / Math.max(1, total)).toFixed(3)), cues, warnings };
 }
 
 async function buildOne(key: string, choice: ProviderChoice, force: boolean): Promise<boolean> {
@@ -164,7 +210,9 @@ async function buildOne(key: string, choice: ProviderChoice, force: boolean): Pr
   const purposes = missingPurposes({ cues: script.cues });
   if (purposes.length > 0) console.warn(`[${key}] ogohlantirish: darsda yo'q qism(lar): ${purposes.join(", ")}`);
 
-  if (!force && previousMatches && (previous.audio?.provider ?? null) === (provider?.id ?? null)) {
+  const previousReport = existsSync(join(CONTENT, key, "report.json")) ? await readJson(join(CONTENT, key, "report.json")) : null;
+  const sameGenerator = previousReport?.generatorVersion === GENERATOR_VERSION || !provider;
+  if (!force && previousMatches && sameGenerator && (previous.audio?.provider ?? null) === (provider?.id ?? null)) {
     console.log(`[${key}] o'zgarmagan (${provider?.id ?? "ovozsiz"}) — o'tkazib yuborildi`);
     return true;
   }
@@ -206,15 +254,26 @@ async function buildOne(key: string, choice: ProviderChoice, force: boolean): Pr
       bytes: track.bytes,
     };
     const timeline: Timeline = { ...draft, audio, subtitles: `/narration/${key}/subtitles.vtt?v=${track.version}` };
+    let asr: AsrResult | null = null;
+    if (process.env.NARRATION_ASR === "1") {
+      console.log(`[${key}] nutqni tanish orqali tekshirilmoqda (${ASR_MODEL})`);
+      asr = await asrCheck(timeline, speech, track.wavPath);
+      console.log(`[${key}] matn bilan farq (CER): ${(asr.cer * 100).toFixed(1)}%`);
+    }
+    const warnings = [...quality.warnings, ...(asr?.warnings ?? [])];
+    for (const warning of warnings) console.warn(`[${key}] ogohlantirish: ${warning}`);
     await writeOutputs(key, timeline, {
       key,
+      generatorVersion: GENERATOR_VERSION,
       provider: provider.id,
       voice: provider.voice,
       license: provider.license,
       generatedAt: audio.generatedAt,
       durationSeconds: timeline.duration,
       mp3Seconds: track.seconds,
-      cues: quality.cues,
+      warnings,
+      asr: asr ? { model: asr.model, cer: asr.cer } : null,
+      cues: quality.cues.map((cue) => ({ ...cue, ...(asr ? { asr: asr.cues.find((item) => item.id === cue.id) } : {}) })),
     });
     console.log(`[${key}] tayyor: ${timeline.duration.toFixed(1)} s, ${(track.bytes / 1024).toFixed(0)} KB, ${provider.id}`);
     return true;

@@ -4,11 +4,13 @@ import { ArrowLeft, CircleCheck, Headphones, VideoOff } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState, useTransition } from "react";
 import { LessonPath } from "@/components/learning/lesson-path";
+import { NarratedPlayer } from "@/components/narration/narrated-player";
 import { Markdown } from "@/components/learning/markdown";
 import { IntegrationBadge } from "@/components/system/integration-status";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import type { LessonDetail, LessonStep, ProgressState } from "@/lib/data/learning";
+import type { Timeline } from "@/lib/narration/schema";
 
 export type LessonPlayerActions = {
   start: (lessonId: string) => Promise<{ ok: true; progress: ProgressState } | { ok: false; message: string }>;
@@ -23,13 +25,15 @@ export type LessonPlayerProps = {
   mode: "student" | "visitor";
   initialProgress: ProgressState | null;
   videoConfigured: boolean;
+  /** Ovozli animatsion dars (bo'lsa, video bosqichida ko'rsatiladi). */
+  narration?: Timeline | null;
   actions?: LessonPlayerActions;
 };
 
 const EXERCISE_KINDS = new Set(["task", "exercise", "quiz", "review", "mistakes"]);
 const HEARTBEAT_SECONDS = 60;
 
-export function LessonPlayer({ lesson, mode, initialProgress, videoConfigured, actions }: LessonPlayerProps) {
+export function LessonPlayer({ lesson, mode, initialProgress, videoConfigured, narration = null, actions }: LessonPlayerProps) {
   const totalSteps = lesson.steps.length;
   const lastIndex = Math.max(0, totalSteps - 1);
   const [progress, setProgress] = useState<ProgressState | null>(initialProgress);
@@ -121,7 +125,12 @@ export function LessonPlayer({ lesson, mode, initialProgress, videoConfigured, a
           </h2>
           {EXERCISE_KINDS.has(step.kind) && <Badge variant="accent">Amaliyot</Badge>}
         </div>
-        <StepBody step={step} hasVideo={lesson.media.some((m) => m.kind === "video")} videoConfigured={videoConfigured} />
+        <StepBody
+          step={step}
+          hasVideo={lesson.media.some((m) => m.kind === "video")}
+          videoConfigured={videoConfigured}
+          narration={narration}
+        />
       </section>
 
       {error && (
@@ -170,7 +179,26 @@ export function LessonPlayer({ lesson, mode, initialProgress, videoConfigured, a
   );
 }
 
-function StepBody({ step, hasVideo, videoConfigured }: { step: LessonStep; hasVideo: boolean; videoConfigured: boolean }) {
+function StepBody({
+  step,
+  hasVideo,
+  videoConfigured,
+  narration,
+}: {
+  step: LessonStep;
+  hasVideo: boolean;
+  videoConfigured: boolean;
+  narration: Timeline | null;
+}) {
+  if (step.kind === "video" && narration) {
+    return (
+      <div className="space-y-4">
+        <NarratedPlayer timeline={narration} />
+        {step.bodyMd && <Markdown>{step.bodyMd}</Markdown>}
+      </div>
+    );
+  }
+
   if (step.kind === "video") {
     return (
       <div className="space-y-4">

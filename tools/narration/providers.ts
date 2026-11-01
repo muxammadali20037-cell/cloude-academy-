@@ -19,7 +19,7 @@ import { join } from "node:path";
 import { asciiApostrophes, speechChunks } from "../../src/lib/narration/speech-text.ts";
 import { latinToCyrillic } from "../../src/lib/narration/translit.ts";
 import type { NarrationScript } from "../../src/lib/narration/schema.ts";
-import { concat, readWav, silence, trimSilence, writeWav, type Pcm } from "./wav.ts";
+import { concat, longestInternalSilence, readWav, silence, trimSilence, writeWav, type Pcm } from "./wav.ts";
 
 export type ProviderId = "azure" | "mms";
 export type CueSpeech = { id: string; text: string };
@@ -99,7 +99,11 @@ export function azureProvider(script: NarrationScript, env: NodeJS.ProcessEnv, c
 
 /* ---------------- Meta MMS (sinov) ---------------- */
 
-type MmsJob = { id: string; text: string; out: string };
+type MmsJob = { id: string; text: string; seed: number; out: string };
+
+/** Bo'lak ichidagi jimlik bundan uzun bo'lsa, bo'lak qayta yaratiladi (soniya). */
+export const MAX_INTERNAL_SILENCE = 0.6;
+const MMS_RETRIES = 3;
 
 function runPython(python: string, payload: unknown): Promise<void> {
   return new Promise((resolve, reject) => {
@@ -122,31 +126,48 @@ export function mmsProvider(script: NarrationScript, env: NodeJS.ProcessEnv, cac
     commercialUse: false,
     async synthesize(cues) {
       await mkdir(dir, { recursive: true });
+      const fileFor = (text: string, chunkSeed: number) => join(dir, `${sha(`${model}|${speakingRate}|${chunkSeed}|${text}`)}.wav`);
+
       // Model tinish belgilarini o'qimaydi: matn bo'laklarga bo'linadi, pauzalar shu yerda qo'yiladi.
       const plan = cues.map((cue) => ({
         id: cue.id,
         chunks: speechChunks(cue.text).map((chunk) => {
           const text = latinToCyrillic(chunk.text).replace(/[^а-яёўғқҳъь\s]/g, "").replace(/\s+/g, " ").trim();
-          const out = join(dir, `${sha(`${model}|${speakingRate}|${seed}|${text}`)}.wav`);
-          return { text, out, pauseAfterMs: chunk.pauseAfterMs };
+          if (!text) throw new Error(`${cue.id}: bo'sh bo'lak`);
+          return { text, pauseAfterMs: chunk.pauseAfterMs, seed, gap: Infinity };
         }),
       }));
+      const allChunks = plan.flatMap((cue) => cue.chunks.map((chunk, index) => ({ chunk, id: `${cue.id}#${index}` })));
 
-      const jobs: MmsJob[] = [];
-      for (const cue of plan) {
-        for (const [index, chunk] of cue.chunks.entries()) {
-          if (!chunk.text) throw new Error(`${cue.id}: bo'sh bo'lak`);
-          if (!existsSync(chunk.out)) jobs.push({ id: `${cue.id}#${index}`, text: chunk.text, out: chunk.out });
+      // Model ba'zan so'z orasida g'ayritabiiy uzun to'xtaydi. Bunday bo'lak boshqa
+      // tasodifiy urug' (seed) bilan qayta yaratiladi; eng silliq variant tanlanadi.
+      let pending = allChunks;
+      for (let attempt = 0; attempt <= MMS_RETRIES && pending.length > 0; attempt += 1) {
+        const jobs: MmsJob[] = pending
+          .map(({ chunk, id }) => ({ id, text: chunk.text, seed: seed + attempt, out: fileFor(chunk.text, seed + attempt) }))
+          .filter((job) => !existsSync(job.out));
+        if (jobs.length > 0) await runPython(python, { model, speakingRate, jobs });
+
+        for (const { chunk } of pending) {
+          const candidateSeed = seed + attempt;
+          const gap = longestInternalSilence(readWav(await readFile(fileFor(chunk.text, candidateSeed))));
+          if (gap < chunk.gap) {
+            chunk.gap = gap;
+            chunk.seed = candidateSeed;
+          }
+        }
+        pending = pending.filter(({ chunk }) => chunk.gap > MAX_INTERNAL_SILENCE);
+        if (pending.length > 0 && attempt < MMS_RETRIES) {
+          console.log(`  uzun pauzali bo'laklar qayta yaratiladi: ${pending.map(({ id }) => id).join(", ")}`);
         }
       }
-      if (jobs.length > 0) await runPython(python, { model, speakingRate, seed, jobs });
 
       const result: Record<string, Pcm> = {};
       for (const cue of plan) {
         const parts: Int16Array[] = [];
         let sampleRate = 0;
         for (const chunk of cue.chunks) {
-          const pcm = trimSilence(readWav(await readFile(chunk.out)), -40, 40);
+          const pcm = trimSilence(readWav(await readFile(fileFor(chunk.text, chunk.seed))), -40, 40);
           sampleRate = pcm.sampleRate;
           parts.push(pcm.samples, silence(pcm.sampleRate, chunk.pauseAfterMs));
         }

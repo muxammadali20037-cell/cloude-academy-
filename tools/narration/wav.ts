@@ -88,6 +88,31 @@ export function rmsDb(samples: Int16Array) {
 }
 
 /**
+ * Nutq ichidagi eng uzun jimlik (soniya). Tinish belgisidagi pauza 0,2–0,45 s;
+ * undan ancha uzun jimlik — model "qotib qolgani" belgisi.
+ */
+export function longestInternalSilence({ sampleRate, samples }: Pcm, thresholdDb = -45) {
+  const threshold = 32768 * Math.pow(10, thresholdDb / 20);
+  const windowSize = Math.max(1, Math.round(sampleRate * 0.02));
+  const loud: boolean[] = [];
+  for (let start = 0; start < samples.length; start += windowSize) {
+    let sum = 0;
+    const end = Math.min(samples.length, start + windowSize);
+    for (let i = start; i < end; i += 1) sum += samples[i] * samples[i];
+    loud.push(Math.sqrt(sum / (end - start)) >= threshold);
+  }
+  const first = loud.indexOf(true);
+  const last = loud.lastIndexOf(true);
+  let longest = 0;
+  let run = 0;
+  for (let i = first; i <= last && first >= 0; i += 1) {
+    run = loud[i] ? 0 : run + 1;
+    longest = Math.max(longest, run);
+  }
+  return (longest * windowSize) / sampleRate;
+}
+
+/**
  * Boshidagi va oxiridagi sukunatni kesadi (provayderlar qo'shadigan bo'sh joy),
  * nafas uzilmasligi uchun chetlarda `keepMs` qoldiriladi.
  */

@@ -5,8 +5,8 @@ Faqat SINOV uchun: modelning litsenziyasi CC-BY-NC-4.0 — tijoriy foydalanish
 taqiqlangan. Ishlab chiqarishda Azure provayderi ishlatiladi.
 
 Kirish (stdin, JSON):
-  {"model": "...", "speakingRate": 0.92, "seed": 7,
-   "jobs": [{"id": "c01#0", "text": "кирилл матн", "out": "/path/file.wav"}]}
+  {"model": "...", "speakingRate": 0.92,
+   "jobs": [{"id": "c01#0", "text": "кирилл матн", "seed": 7, "out": "/path/file.wav"}]}
 Natija: har bir job uchun 16-bit mono WAV fayl.
 """
 import json
@@ -32,7 +32,7 @@ def main() -> None:
         if inputs["input_ids"].shape[-1] < 2:
             raise SystemExit(f"{job['id']}: matn tokenlarga aylanmadi: {job['text']!r}")
         # Bir xil matn har safar bir xil ovoz bersin (model tasodifiy qismga ega).
-        torch.manual_seed(int(request["seed"]))
+        torch.manual_seed(int(job["seed"]))
         with torch.no_grad():
             waveform = model(**inputs).waveform[0].cpu().numpy()
         pcm = (np.clip(waveform, -1.0, 1.0) * 32767).astype("<i2")
@@ -41,7 +41,7 @@ def main() -> None:
             out.setsampwidth(2)
             out.setframerate(sample_rate)
             out.writeframes(pcm.tobytes())
-        print(f"{job['id']}: {len(pcm) / sample_rate:.2f} s", flush=True)
+        print(f"{job['id']} (seed {job['seed']}): {len(pcm) / sample_rate:.2f} s", flush=True)
 
 
 if __name__ == "__main__":
