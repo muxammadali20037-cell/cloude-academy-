@@ -37,6 +37,14 @@ har bir qarorni oddiy o'zbek tilida izohlang.
 - Darslar `planned → draft → review → published`. AI yozgan matn `review` holatida qoladi,
   admin tasdiqlamaguncha nashr qilinmaydi.
 
+## Ovozli darslar
+
+- Ssenariy `content/narration/<dars>/script.json`; ovoz GitHub Actions'da (`narration.yml`) yaratiladi.
+- Gap faqat harakat ekranda ko'ringandan keyin boshlanadi (`timelineProblems` tekshiradi);
+  ekranda ko'rsatilmagan harakat haqida gapirilmaydi.
+- MMS — faqat sinov ovozi (CC-BY-NC). Tasdiqlangan (`approved`) darsda faqat tijoriy ovoz (Azure).
+- Aytiladigan matnda raqam yo'q — so'z bilan yoziladi; inglizcha nomlar `lexicon` orqali o'qiladi.
+
 ## Tekshiruv (har bir o'zgarishdan keyin)
 
 ```bash

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { LessonAside } from "@/components/learning/lesson-aside";
 import { LessonPlayer } from "@/components/learning/lesson-player";
+import { getNarrationForLesson } from "@/lib/narration/registry";
 import { getLessonForVisitor } from "@/lib/data/learning";
 import { getIntegrationStatuses } from "@/lib/integrations";
 
@@ -31,7 +32,13 @@ export default async function FreeLessonPage({ params }: PageProps<"/bepul-dars/
         {lesson.summary && <p className="mt-2 text-fg-muted">{lesson.summary}</p>}
       </header>
       <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_18rem]">
-        <LessonPlayer lesson={lesson} mode="visitor" initialProgress={null} videoConfigured={videoConfigured} />
+        <LessonPlayer
+          lesson={lesson}
+          mode="visitor"
+          initialProgress={null}
+          videoConfigured={videoConfigured}
+          narration={getNarrationForLesson(lesson.id)}
+        />
         <LessonAside lesson={lesson} />
       </div>
     </main>

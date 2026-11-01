@@ -1,0 +1,630 @@
+{
+  "version": 1,
+  "key": "l1-m1-01",
+  "lessonId": "f19a4e16-518f-4283-96e0-185d6d02e55b",
+  "title": "Claude nima?",
+  "status": "review",
+  "scriptHash": "910e54d2e9751bf7fa5c7e38488ffa4b85158c2cc23054249b65a032a5ee0f58",
+  "duration": 161.073,
+  "audio": {
+    "src": "/narration/l1-m1-01/narration.mp3?v=3048c6475c8a",
+    "provider": "mms",
+    "voice": "facebook/mms-tts-uzb-script_cyrillic",
+    "license": "CC-BY-NC-4.0 (faqat sinov, tijoriy emas)",
+    "commercialUse": false,
+    "generatedAt": "2026-11-01T18:38:06.695Z",
+    "bytes": 1289325
+  },
+  "subtitles": "/narration/l1-m1-01/subtitles.vtt?v=3048c6475c8a",
+  "scenes": {
+    "intro": {
+      "type": "title",
+      "eyebrow": "1-daraja · 1-dars",
+      "title": "Claude nima?",
+      "lead": "Birinchi suhbatni birga boshlaymiz"
+    },
+    "about": {
+      "type": "list",
+      "heading": "Claude nima qila oladi",
+      "marker": "dot",
+      "items": [
+        {
+          "id": "def",
+          "text": "Anthropic yaratgan sunʼiy intellekt yordamchisi",
+          "tone": "lead"
+        },
+        {
+          "id": "answers",
+          "text": "Savollarga javob beradi, tushuntiradi",
+          "tone": "item"
+        },
+        {
+          "id": "writing",
+          "text": "Matn yozadi va tahrirlaydi",
+          "tone": "item"
+        },
+        {
+          "id": "analysis",
+          "text": "Maʼlumotni tahlil qiladi",
+          "tone": "item"
+        },
+        {
+          "id": "code",
+          "text": "Kod yozishda yordam beradi",
+          "tone": "item"
+        }
+      ]
+    },
+    "browser": {
+      "type": "browser",
+      "url": "claude.ai",
+      "notice": "Birinchi marta: akkaunt yarating",
+      "focus": "Men buxgalterman.",
+      "answerLabel": "Claude javobi"
+    },
+    "fix": {
+      "type": "list",
+      "heading": "Muammo chiqsa",
+      "marker": "warning",
+      "items": [
+        {
+          "id": "reload",
+          "text": "Sahifa ochilmasa — internetni tekshiring",
+          "tone": "item"
+        },
+        {
+          "id": "limit",
+          "text": "Limit haqida xabar chiqsa — biroz kuting",
+          "tone": "item"
+        },
+        {
+          "id": "verify",
+          "text": "Raqam va sanalarni manbadan tekshiring",
+          "tone": "item"
+        }
+      ]
+    },
+    "task": {
+      "type": "list",
+      "heading": "Endi navbat sizda",
+      "marker": "number",
+      "items": [
+        {
+          "id": "open",
+          "text": "claude.ai saytini oching",
+          "tone": "item"
+        },
+        {
+          "id": "ask",
+          "text": "Kasbingiz haqida savol bering",
+          "tone": "item"
+        },
+        {
+          "id": "followup",
+          "text": "Bitta misolni batafsil soʻrang",
+          "tone": "item"
+        }
+      ]
+    }
+  },
+  "cues": [
+    {
+      "id": "c01",
+      "purpose": "what",
+      "scene": "intro",
+      "text": "Salom! Bu darsda Claude nima ekanini bilib olamiz va unga birinchi savolimizni beramiz.",
+      "start": 0,
+      "end": 7.11,
+      "audioStart": 0.94,
+      "audioEnd": 6.46,
+      "actions": [
+        {
+          "do": "reveal",
+          "target": "eyebrow",
+          "start": 0.35,
+          "visibleAt": 0.5,
+          "end": 0.75
+        },
+        {
+          "do": "reveal",
+          "target": "title",
+          "start": 0.51,
+          "visibleAt": 0.66,
+          "end": 0.91
+        },
+        {
+          "do": "reveal",
+          "target": "lead",
+          "start": 0.67,
+          "visibleAt": 0.82,
+          "end": 1.07
+        }
+      ]
+    },
+    {
+      "id": "c02",
+      "purpose": "what",
+      "scene": "about",
+      "text": "Claude — Anthropic kompaniyasi yaratgan sunʼiy intellekt yordamchisi.",
+      "highlight": "def",
+      "start": 7.11,
+      "end": 13.798,
+      "audioStart": 8.05,
+      "audioEnd": 13.418,
+      "actions": [
+        {
+          "do": "reveal",
+          "target": "heading",
+          "start": 7.46,
+          "visibleAt": 7.61,
+          "end": 7.86
+        },
+        {
+          "do": "reveal",
+          "target": "def",
+          "start": 7.62,
+          "visibleAt": 7.77,
+          "end": 8.02
+        }
+      ]
+    },
+    {
+      "id": "c03",
+      "purpose": "what",
+      "scene": "about",
+      "text": "U savollaringizga javob beradi va murakkab narsalarni sodda qilib tushuntiradi.",
+      "highlight": "answers",
+      "start": 13.798,
+      "end": 20.444,
+      "audioStart": 14.228,
+      "audioEnd": 20.064,
+      "actions": [
+        {
+          "do": "reveal",
+          "target": "answers",
+          "start": 13.798,
+          "visibleAt": 13.948,
+          "end": 14.198
+        }
+      ]
+    },
+    {
+      "id": "c04",
+      "purpose": "what",
+      "scene": "about",
+      "text": "Xat, post yoki hisobot kabi matnlarni yozadi va tahrirlaydi.",
+      "highlight": "writing",
+      "start": 20.444,
+      "end": 27.122,
+      "audioStart": 20.874,
+      "audioEnd": 26.742,
+      "actions": [
+        {
+          "do": "reveal",
+          "target": "writing",
+          "start": 20.444,
+          "visibleAt": 20.594,
+          "end": 20.844
+        }
+      ]
+    },
+    {
+      "id": "c05",
+      "purpose": "what",
+      "scene": "about",
+      "text": "Maʼlumotni tahlil qilib, qisqa xulosa chiqarib beradi.",
+      "highlight": "analysis",
+      "start": 27.122,
+      "end": 31.584,
+      "audioStart": 27.552,
+      "audioEnd": 31.204,
+      "actions": [
+        {
+          "do": "reveal",
+          "target": "analysis",
+          "start": 27.122,
+          "visibleAt": 27.272,
+          "end": 27.522
+        }
+      ]
+    },
+    {
+      "id": "c06",
+      "purpose": "what",
+      "scene": "about",
+      "text": "Dasturchilarga esa kod yozishda va xatolarni topishda yordam beradi.",
+      "highlight": "code",
+      "start": 31.584,
+      "end": 37.942,
+      "audioStart": 32.014,
+      "audioEnd": 37.292,
+      "actions": [
+        {
+          "do": "reveal",
+          "target": "code",
+          "start": 31.584,
+          "visibleAt": 31.734,
+          "end": 31.984
+        }
+      ]
+    },
+    {
+      "id": "c07",
+      "purpose": "why",
+      "scene": "browser",
+      "text": "Keling, amalda koʻramiz. Eng oson yoʻl — brauzer: hech narsa oʻrnatish shart emas.",
+      "start": 37.942,
+      "end": 46.362,
+      "audioStart": 39.012,
+      "audioEnd": 45.982,
+      "actions": [
+        {
+          "do": "point",
+          "target": "address",
+          "start": 38.292,
+          "visibleAt": 38.892,
+          "end": 38.892
+        }
+      ]
+    },
+    {
+      "id": "c08",
+      "purpose": "where",
+      "scene": "browser",
+      "text": "Brauzerning yuqorisidagi manzil qatoriga bosamiz.",
+      "highlight": "address",
+      "start": 46.362,
+      "end": 51.686,
+      "audioStart": 47.332,
+      "audioEnd": 51.306,
+      "actions": [
+        {
+          "do": "click",
+          "target": "address",
+          "start": 46.362,
+          "visibleAt": 46.962,
+          "end": 47.312
+        }
+      ]
+    },
+    {
+      "id": "c09",
+      "purpose": "where",
+      "scene": "browser",
+      "text": "Bu yerga claude.ai deb yozamiz — bu Claudeʼning rasmiy sayti.",
+      "highlight": "address",
+      "start": 51.686,
+      "end": 59.093,
+      "audioStart": 52.481,
+      "audioEnd": 58.713,
+      "actions": [
+        {
+          "do": "type",
+          "target": "address",
+          "text": "claude.ai",
+          "start": 51.686,
+          "visibleAt": 51.766,
+          "end": 52.061
+        }
+      ]
+    },
+    {
+      "id": "c10",
+      "purpose": "result",
+      "scene": "browser",
+      "text": "Enter tugmasini bosamiz va Claude sahifasi ochiladi.",
+      "start": 59.093,
+      "end": 63.659,
+      "audioStart": 59.613,
+      "audioEnd": 63.279,
+      "actions": [
+        {
+          "do": "press",
+          "key": "Enter",
+          "start": 59.093,
+          "visibleAt": 59.153,
+          "end": 59.993
+        },
+        {
+          "do": "reveal",
+          "target": "page",
+          "start": 59.343,
+          "visibleAt": 59.493,
+          "end": 59.743
+        }
+      ]
+    },
+    {
+      "id": "c11",
+      "purpose": "what",
+      "scene": "browser",
+      "text": "Birinchi marta kirsangiz, avval email yoki Google orqali akkaunt yaratasiz.",
+      "highlight": "notice",
+      "start": 63.659,
+      "end": 71.441,
+      "audioStart": 64.089,
+      "audioEnd": 71.061,
+      "actions": [
+        {
+          "do": "reveal",
+          "target": "notice",
+          "start": 63.659,
+          "visibleAt": 63.809,
+          "end": 64.059
+        }
+      ]
+    },
+    {
+      "id": "c12",
+      "purpose": "where",
+      "scene": "browser",
+      "text": "Endi sahifa pastidagi xabar maydoniga bosamiz. Savol shu yerga yoziladi.",
+      "highlight": "input",
+      "start": 71.441,
+      "end": 79.227,
+      "audioStart": 72.411,
+      "audioEnd": 78.847,
+      "actions": [
+        {
+          "do": "click",
+          "target": "input",
+          "start": 71.441,
+          "visibleAt": 72.041,
+          "end": 72.391
+        }
+      ]
+    },
+    {
+      "id": "c13",
+      "purpose": "what",
+      "scene": "browser",
+      "text": "Savolimizni yozamiz: avval kasbimizni aytamiz, keyin aniq misollar soʻraymiz.",
+      "start": 79.227,
+      "end": 86.095,
+      "audioStart": 79.427,
+      "audioEnd": 85.715,
+      "actions": [
+        {
+          "do": "type",
+          "target": "input",
+          "text": "Men buxgalterman. Claude ish kunimda qaysi 3 ta vazifada yordam bera oladi? Aniq misollar bilan tushuntir.",
+          "start": 79.227,
+          "visibleAt": 79.307,
+          "end": 83.644
+        }
+      ]
+    },
+    {
+      "id": "c14",
+      "purpose": "why",
+      "scene": "browser",
+      "text": "Kasbingizni yozganingiz uchun Claude javobni aynan sizning ishingizga moslab beradi.",
+      "highlight": "focus",
+      "start": 86.095,
+      "end": 92.725,
+      "audioStart": 86.365,
+      "audioEnd": 92.345,
+      "actions": []
+    },
+    {
+      "id": "c15",
+      "purpose": "where",
+      "scene": "browser",
+      "text": "Oʻng tomondagi yuborish tugmasini bosamiz.",
+      "highlight": "send",
+      "start": 92.725,
+      "end": 97.261,
+      "audioStart": 93.995,
+      "audioEnd": 96.881,
+      "actions": [
+        {
+          "do": "click",
+          "target": "send",
+          "start": 92.725,
+          "visibleAt": 93.325,
+          "end": 93.675
+        },
+        {
+          "do": "submit",
+          "target": "input",
+          "start": 93.425,
+          "visibleAt": 93.525,
+          "end": 93.825
+        }
+      ]
+    },
+    {
+      "id": "c16",
+      "purpose": "result",
+      "scene": "browser",
+      "text": "Bir necha soniyada javob paydo boʻladi. Claude uni qatorma-qator yozib chiqadi.",
+      "highlight": "answer",
+      "start": 97.261,
+      "end": 103.775,
+      "audioStart": 97.781,
+      "audioEnd": 103.395,
+      "actions": [
+        {
+          "do": "stream",
+          "target": "answer",
+          "start": 97.261,
+          "visibleAt": 97.511,
+          "end": 99.861
+        }
+      ]
+    },
+    {
+      "id": "c17",
+      "purpose": "what",
+      "scene": "browser",
+      "text": "Javobni oʻqing. Tushunarsiz joy boʻlsa, aniqlashtiruvchi savol yozing — bu odatiy usul.",
+      "start": 103.775,
+      "end": 112.103,
+      "audioStart": 104.675,
+      "audioEnd": 111.453,
+      "actions": [
+        {
+          "do": "click",
+          "target": "input",
+          "start": 103.775,
+          "visibleAt": 104.375,
+          "end": 104.725
+        },
+        {
+          "do": "type",
+          "target": "input",
+          "text": "2-misolni batafsilroq tushuntir.",
+          "start": 104.475,
+          "visibleAt": 104.555,
+          "end": 105.808
+        }
+      ]
+    },
+    {
+      "id": "c18",
+      "purpose": "error",
+      "scene": "fix",
+      "text": "Agar biror narsa ishlamasa, xavotir olmang. Koʻp uchraydigan holatlarni koʻrib chiqamiz.",
+      "start": 112.103,
+      "end": 119.427,
+      "audioStart": 112.723,
+      "audioEnd": 119.047,
+      "actions": [
+        {
+          "do": "reveal",
+          "target": "heading",
+          "start": 112.453,
+          "visibleAt": 112.603,
+          "end": 112.853
+        }
+      ]
+    },
+    {
+      "id": "c19",
+      "purpose": "error",
+      "scene": "fix",
+      "text": "Sahifa ochilmasa, internet aloqasini tekshirib, sahifani yangilang.",
+      "highlight": "reload",
+      "start": 119.427,
+      "end": 125.649,
+      "audioStart": 119.857,
+      "audioEnd": 125.269,
+      "actions": [
+        {
+          "do": "reveal",
+          "target": "reload",
+          "start": 119.427,
+          "visibleAt": 119.577,
+          "end": 119.827
+        }
+      ]
+    },
+    {
+      "id": "c20",
+      "purpose": "error",
+      "scene": "fix",
+      "text": "Limit tugagani haqida xabar chiqsa, biroz kuting: bepul rejada limit vaqt oʻtib yangilanadi.",
+      "highlight": "limit",
+      "start": 125.649,
+      "end": 133.955,
+      "audioStart": 126.079,
+      "audioEnd": 133.575,
+      "actions": [
+        {
+          "do": "reveal",
+          "target": "limit",
+          "start": 125.649,
+          "visibleAt": 125.799,
+          "end": 126.049
+        }
+      ]
+    },
+    {
+      "id": "c21",
+      "purpose": "error",
+      "scene": "fix",
+      "text": "Eng muhimi: Claude ham xato qilishi mumkin. Raqam, sana va nomlarni rasmiy manbadan tekshiring.",
+      "highlight": "verify",
+      "start": 133.955,
+      "end": 142.871,
+      "audioStart": 134.385,
+      "audioEnd": 142.221,
+      "actions": [
+        {
+          "do": "reveal",
+          "target": "verify",
+          "start": 133.955,
+          "visibleAt": 134.105,
+          "end": 134.355
+        }
+      ]
+    },
+    {
+      "id": "c22",
+      "purpose": "what",
+      "scene": "task",
+      "text": "Endi navbat sizda. Avval claude.ai saytini oching.",
+      "highlight": "open",
+      "start": 142.871,
+      "end": 150.379,
+      "audioStart": 143.811,
+      "audioEnd": 149.999,
+      "actions": [
+        {
+          "do": "reveal",
+          "target": "heading",
+          "start": 143.221,
+          "visibleAt": 143.371,
+          "end": 143.621
+        },
+        {
+          "do": "reveal",
+          "target": "open",
+          "start": 143.381,
+          "visibleAt": 143.531,
+          "end": 143.781
+        }
+      ]
+    },
+    {
+      "id": "c23",
+      "purpose": "what",
+      "scene": "task",
+      "text": "Oʻz kasbingiz haqida xuddi shunday savol bering.",
+      "highlight": "ask",
+      "start": 150.379,
+      "end": 154.453,
+      "audioStart": 150.809,
+      "audioEnd": 154.073,
+      "actions": [
+        {
+          "do": "reveal",
+          "target": "ask",
+          "start": 150.379,
+          "visibleAt": 150.529,
+          "end": 150.779
+        }
+      ]
+    },
+    {
+      "id": "c24",
+      "purpose": "what",
+      "scene": "task",
+      "text": "Soʻng bitta misolni batafsilroq tushuntirib berishini soʻrang. Keyingi darsda koʻrishguncha!",
+      "highlight": "followup",
+      "start": 154.453,
+      "end": 161.073,
+      "audioStart": 154.883,
+      "audioEnd": 160.693,
+      "actions": [
+        {
+          "do": "reveal",
+          "target": "followup",
+          "start": 154.453,
+          "visibleAt": 154.603,
+          "end": 154.853
+        }
+      ]
+    }
+  ]
+}

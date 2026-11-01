@@ -1,0 +1,95 @@
+name: Ovozli darslar (TTS)
+
+# Darslarning o'qituvchi ovozini yaratadi va repoga saqlaydi.
+#  - Ssenariy (content/narration/*/script.json) o'zgarganda avtomatik ishlaydi.
+#  - Qo'lda: Actions → "Ovozli darslar (TTS)" → Run workflow.
+# Provayder: AZURE_SPEECH_KEY va AZURE_SPEECH_REGION secrets bo'lsa — Azure
+# (ishlab chiqarish ovozi); bo'lmasa — Meta MMS (faqat sinov ovozi, tijoriy emas).
+
+on:
+  push:
+    paths:
+      - "content/narration/**/script.json"
+      - "tools/narration/**"
+      - ".github/workflows/narration.yml"
+  workflow_dispatch:
+    inputs:
+      provider:
+        description: "auto — Azure kaliti bo'lsa Azure, bo'lmasa MMS (sinov)"
+        type: choice
+        options: [auto, azure, mms]
+        default: auto
+      force:
+        description: "O'zgarmagan darslarni ham qayta yaratish"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: narration-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    name: Ovoz yaratish
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: tools/narration/requirements.txt
+
+      - name: Python kutubxonalari (CPU)
+        run: pip install -r tools/narration/requirements.txt
+
+      - name: ffmpeg
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg
+          ffmpeg -version | head -1
+
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/huggingface
+            .narration-cache
+          key: narration-${{ hashFiles('content/narration/**/script.json', 'tools/narration/**') }}
+          restore-keys: narration-
+
+      - name: Ovoz yaratish
+        env:
+          AZURE_SPEECH_KEY: ${{ secrets.AZURE_SPEECH_KEY }}
+          AZURE_SPEECH_REGION: ${{ secrets.AZURE_SPEECH_REGION }}
+          # Yaratilgan ovozni nutqni tanish modeli bilan matnga qaytarib solishtirish.
+          NARRATION_ASR: "1"
+        run: npm run narration -- --all --provider "${{ inputs.provider || 'auto' }}" ${{ inputs.force && '--force' || '' }}
+
+      - name: Vaqt shkalasi testlari
+        run: npx vitest run src/lib/narration
+
+      - name: Natijani repoga saqlash
+        if: success() || failure()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add content/narration public/narration
+          if git diff --cached --quiet; then
+            echo "O'zgarish yo'q"
+            exit 0
+          fi
+          git commit -m "Ovozli darslar: audio va vaqt shkalasi yangilandi"
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"

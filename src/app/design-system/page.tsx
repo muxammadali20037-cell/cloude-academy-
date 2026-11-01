@@ -29,6 +29,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { brand } from "@/config/brand";
 import { getIntegrationStatuses } from "@/lib/integrations";
 import { LiveExercise } from "@/components/marketing/live-exercise";
+import { NarratedPlayer } from "@/components/narration/narrated-player";
+import { getNarrationByKey } from "@/lib/narration/registry";
 import { FormDemo } from "./_components/form-demo";
 import { DialogDemo, TabsDemo, TooltipDemo } from "./_components/overlay-demo";
 import { Frame, Section, SubHeading } from "./_components/section";
@@ -51,10 +53,12 @@ const SECTIONS = [
   { id: "navigatsiya", label: "Navigatsiya" },
   { id: "holatlar", label: "Holatlar" },
   { id: "dars", label: "Dars ekrani" },
+  { id: "ovozli-dars", label: "Ovozli dars" },
 ];
 
 export default function DesignSystemPage() {
   const integrations = getIntegrationStatuses();
+  const narration = getNarrationByKey("l1-m1-01");
   const configuredCount = integrations.filter((item) => item.configured).length;
 
   return (
@@ -494,6 +498,18 @@ Xavfli bandlarni toping.`}</code>
             </Frame>
           </Section>
 
+          {/* OVOZLI DARS */}
+          <Section
+            id="ovozli-dars"
+            title="Ovozli dars"
+            description="Animatsiya harakatni koʻrsatadi, oʻqituvchi ovozi uni tushuntiradi, subtitr bir vaqtda chiqadi. Gap faqat harakat ekranda koʻringandan keyin boshlanadi. Namuna — 1-dars, matni admin tekshiruvida."
+          >
+            {narration ? (
+              <NarratedPlayer timeline={narration} className="max-w-4xl" />
+            ) : (
+              <EmptyState icon={VideoOff} title="Ovozli dars topilmadi" description="Generatorni ishga tushiring: npm run narration -- --all" />
+            )}
+          </Section>
         </main>
       </div>
 

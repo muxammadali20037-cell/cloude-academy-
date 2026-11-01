@@ -1,0 +1,280 @@
+{
+  "key": "l1-m1-01",
+  "lessonId": "f19a4e16-518f-4283-96e0-185d6d02e55b",
+  "title": "Claude nima?",
+  "status": "review",
+  "sources": [
+    "https://support.claude.com/en/articles/8114491-get-started-with-claude",
+    "https://www.anthropic.com/supported-countries"
+  ],
+  "voice": {
+    "azure": { "name": "uz-UZ-MadinaNeural", "rate": "-5%" },
+    "mms": { "model": "facebook/mms-tts-uzb-script_cyrillic", "speakingRate": 0.92, "seed": 7 }
+  },
+  "lexicon": [
+    { "match": "claude.ai", "say": "klod nuqta ey ay" },
+    { "match": "Claude", "say": "Klod" },
+    { "match": "Anthropic", "say": "Antropik" },
+    { "match": "email", "say": "elektron pochta" },
+    { "match": "Google", "say": "Gugl" }
+  ],
+  "scenes": {
+    "intro": {
+      "type": "title",
+      "eyebrow": "1-daraja · 1-dars",
+      "title": "Claude nima?",
+      "lead": "Birinchi suhbatni birga boshlaymiz"
+    },
+    "about": {
+      "type": "list",
+      "heading": "Claude nima qila oladi",
+      "marker": "dot",
+      "items": [
+        { "id": "def", "tone": "lead", "text": "Anthropic yaratgan sunʼiy intellekt yordamchisi" },
+        { "id": "answers", "text": "Savollarga javob beradi, tushuntiradi" },
+        { "id": "writing", "text": "Matn yozadi va tahrirlaydi" },
+        { "id": "analysis", "text": "Maʼlumotni tahlil qiladi" },
+        { "id": "code", "text": "Kod yozishda yordam beradi" }
+      ]
+    },
+    "browser": {
+      "type": "browser",
+      "url": "claude.ai",
+      "notice": "Birinchi marta: akkaunt yarating",
+      "focus": "Men buxgalterman.",
+      "answerLabel": "Claude javobi"
+    },
+    "fix": {
+      "type": "list",
+      "heading": "Muammo chiqsa",
+      "marker": "warning",
+      "items": [
+        { "id": "reload", "text": "Sahifa ochilmasa — internetni tekshiring" },
+        { "id": "limit", "text": "Limit haqida xabar chiqsa — biroz kuting" },
+        { "id": "verify", "text": "Raqam va sanalarni manbadan tekshiring" }
+      ]
+    },
+    "task": {
+      "type": "list",
+      "heading": "Endi navbat sizda",
+      "marker": "number",
+      "items": [
+        { "id": "open", "text": "claude.ai saytini oching" },
+        { "id": "ask", "text": "Kasbingiz haqida savol bering" },
+        { "id": "followup", "text": "Bitta misolni batafsil soʻrang" }
+      ]
+    }
+  },
+  "cues": [
+    {
+      "id": "c01",
+      "purpose": "what",
+      "scene": "intro",
+      "actions": [
+        { "do": "reveal", "target": "eyebrow" },
+        { "do": "reveal", "target": "title" },
+        { "do": "reveal", "target": "lead" }
+      ],
+      "text": "Salom! Bu darsda Claude nima ekanini bilib olamiz va unga birinchi savolimizni beramiz."
+    },
+    {
+      "id": "c02",
+      "purpose": "what",
+      "scene": "about",
+      "actions": [
+        { "do": "reveal", "target": "heading" },
+        { "do": "reveal", "target": "def" }
+      ],
+      "highlight": "def",
+      "text": "Claude — Anthropic kompaniyasi yaratgan sunʼiy intellekt yordamchisi."
+    },
+    {
+      "id": "c03",
+      "purpose": "what",
+      "scene": "about",
+      "actions": [{ "do": "reveal", "target": "answers" }],
+      "highlight": "answers",
+      "text": "U savollaringizga javob beradi va murakkab narsalarni sodda qilib tushuntiradi."
+    },
+    {
+      "id": "c04",
+      "purpose": "what",
+      "scene": "about",
+      "actions": [{ "do": "reveal", "target": "writing" }],
+      "highlight": "writing",
+      "text": "Xat, post yoki hisobot kabi matnlarni yozadi va tahrirlaydi."
+    },
+    {
+      "id": "c05",
+      "purpose": "what",
+      "scene": "about",
+      "actions": [{ "do": "reveal", "target": "analysis" }],
+      "highlight": "analysis",
+      "text": "Maʼlumotni tahlil qilib, qisqa xulosa chiqarib beradi."
+    },
+    {
+      "id": "c06",
+      "purpose": "what",
+      "scene": "about",
+      "actions": [{ "do": "reveal", "target": "code" }],
+      "highlight": "code",
+      "text": "Dasturchilarga esa kod yozishda va xatolarni topishda yordam beradi."
+    },
+    {
+      "id": "c07",
+      "purpose": "why",
+      "scene": "browser",
+      "actions": [{ "do": "point", "target": "address" }],
+      "text": "Keling, amalda koʻramiz. Eng oson yoʻl — brauzer: hech narsa oʻrnatish shart emas."
+    },
+    {
+      "id": "c08",
+      "purpose": "where",
+      "scene": "browser",
+      "actions": [{ "do": "click", "target": "address" }],
+      "highlight": "address",
+      "text": "Brauzerning yuqorisidagi manzil qatoriga bosamiz."
+    },
+    {
+      "id": "c09",
+      "purpose": "where",
+      "scene": "browser",
+      "actions": [{ "do": "type", "target": "address", "text": "claude.ai" }],
+      "highlight": "address",
+      "text": "Bu yerga claude.ai deb yozamiz — bu Claudeʼning rasmiy sayti."
+    },
+    {
+      "id": "c10",
+      "purpose": "result",
+      "scene": "browser",
+      "actions": [
+        { "do": "press", "key": "Enter" },
+        { "do": "reveal", "target": "page" }
+      ],
+      "text": "Enter tugmasini bosamiz va Claude sahifasi ochiladi."
+    },
+    {
+      "id": "c11",
+      "purpose": "what",
+      "scene": "browser",
+      "actions": [{ "do": "reveal", "target": "notice" }],
+      "highlight": "notice",
+      "text": "Birinchi marta kirsangiz, avval email yoki Google orqali akkaunt yaratasiz."
+    },
+    {
+      "id": "c12",
+      "purpose": "where",
+      "scene": "browser",
+      "actions": [{ "do": "click", "target": "input" }],
+      "highlight": "input",
+      "text": "Endi sahifa pastidagi xabar maydoniga bosamiz. Savol shu yerga yoziladi."
+    },
+    {
+      "id": "c13",
+      "purpose": "what",
+      "scene": "browser",
+      "actions": [
+        {
+          "do": "type",
+          "target": "input",
+          "text": "Men buxgalterman. Claude ish kunimda qaysi 3 ta vazifada yordam bera oladi? Aniq misollar bilan tushuntir."
+        }
+      ],
+      "text": "Savolimizni yozamiz: avval kasbimizni aytamiz, keyin aniq misollar soʻraymiz."
+    },
+    {
+      "id": "c14",
+      "purpose": "why",
+      "scene": "browser",
+      "highlight": "focus",
+      "text": "Kasbingizni yozganingiz uchun Claude javobni aynan sizning ishingizga moslab beradi."
+    },
+    {
+      "id": "c15",
+      "purpose": "where",
+      "scene": "browser",
+      "actions": [
+        { "do": "click", "target": "send" },
+        { "do": "submit", "target": "input" }
+      ],
+      "highlight": "send",
+      "text": "Oʻng tomondagi yuborish tugmasini bosamiz."
+    },
+    {
+      "id": "c16",
+      "purpose": "result",
+      "scene": "browser",
+      "actions": [{ "do": "stream", "target": "answer" }],
+      "highlight": "answer",
+      "text": "Bir necha soniyada javob paydo boʻladi. Claude uni qatorma-qator yozib chiqadi."
+    },
+    {
+      "id": "c17",
+      "purpose": "what",
+      "scene": "browser",
+      "actions": [
+        { "do": "click", "target": "input" },
+        { "do": "type", "target": "input", "text": "2-misolni batafsilroq tushuntir." }
+      ],
+      "text": "Javobni oʻqing. Tushunarsiz joy boʻlsa, aniqlashtiruvchi savol yozing — bu odatiy usul."
+    },
+    {
+      "id": "c18",
+      "purpose": "error",
+      "scene": "fix",
+      "actions": [{ "do": "reveal", "target": "heading" }],
+      "text": "Agar biror narsa ishlamasa, xavotir olmang. Koʻp uchraydigan holatlarni koʻrib chiqamiz."
+    },
+    {
+      "id": "c19",
+      "purpose": "error",
+      "scene": "fix",
+      "actions": [{ "do": "reveal", "target": "reload" }],
+      "highlight": "reload",
+      "text": "Sahifa ochilmasa, internet aloqasini tekshirib, sahifani yangilang."
+    },
+    {
+      "id": "c20",
+      "purpose": "error",
+      "scene": "fix",
+      "actions": [{ "do": "reveal", "target": "limit" }],
+      "highlight": "limit",
+      "text": "Limit tugagani haqida xabar chiqsa, biroz kuting: bepul rejada limit vaqt oʻtib yangilanadi."
+    },
+    {
+      "id": "c21",
+      "purpose": "error",
+      "scene": "fix",
+      "actions": [{ "do": "reveal", "target": "verify" }],
+      "highlight": "verify",
+      "text": "Eng muhimi: Claude ham xato qilishi mumkin. Raqam, sana va nomlarni rasmiy manbadan tekshiring."
+    },
+    {
+      "id": "c22",
+      "purpose": "what",
+      "scene": "task",
+      "actions": [
+        { "do": "reveal", "target": "heading" },
+        { "do": "reveal", "target": "open" }
+      ],
+      "highlight": "open",
+      "text": "Endi navbat sizda. Avval claude.ai saytini oching."
+    },
+    {
+      "id": "c23",
+      "purpose": "what",
+      "scene": "task",
+      "actions": [{ "do": "reveal", "target": "ask" }],
+      "highlight": "ask",
+      "text": "Oʻz kasbingiz haqida xuddi shunday savol bering."
+    },
+    {
+      "id": "c24",
+      "purpose": "what",
+      "scene": "task",
+      "actions": [{ "do": "reveal", "target": "followup" }],
+      "highlight": "followup",
+      "text": "Soʻng bitta misolni batafsilroq tushuntirib berishini soʻrang. Keyingi darsda koʻrishguncha!"
+    }
+  ]
+}

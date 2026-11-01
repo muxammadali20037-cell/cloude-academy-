@@ -14,6 +14,7 @@ To'liq reja (arxitektura, sahifalar, database, AI, to'lov, roadmap):
 | 1 · Audit va reja | Tayyor |
 | 2 · Dizayn tizimi | Tayyor — `/design-system` |
 | 3 · Asosiy mahsulot | Tayyor — baza, email kod bilan kirish, landing, dashboard, kurs xaritasi, dars sahifasi, progress |
+| 6 · Ovozli darslar | Tizim tayyor va sinovdan o'tgan; 1-dars namunasi (sinov ovozi). Azure kaliti kutilmoqda |
 | 7 · Admin va CMS | Keyingi |
 
 Ishlaydigan qismlar: kurs dasturi (6 daraja, 90 dars — hozircha nomlari), ro'yxatdan
@@ -44,6 +45,7 @@ npm run dev                  # http://localhost:3000
 | `npm run test` | UI testlari + baza testlari (barcha migratsiyalar va RLS qoidalari haqiqiy PostgreSQL'da — PGlite) |
 | `npm run test:e2e` | Brauzer testlari (baza ulanmagan holat): ikki tema, desktop va mobil, WCAG 2.2 AA. Avval `npm run build` |
 | `npm run check` | Lint + typecheck + test + build birdaniga |
+| `npm run narration -- --all` | Ovozli darslarni yaratish (TTS provayder bo'lmasa — subtitrli ovozsiz vaqt shkalasi) |
 
 GitHub Actions har bir push'da ikki ishni bajaradi (`.github/workflows/ci.yml`):
 
@@ -52,6 +54,29 @@ GitHub Actions har bir push'da ikki ishni bajaradi (`.github/workflows/ci.yml`):
    test darslari (`e2e-supabase/fixtures.sql`) va haqiqiy talaba yo'li: ro'yxatdan o'tish →
    pochtadan kod → dashboard → dars → tugatish → progress → chiqish. Skrinshotlar artefakt
    sifatida saqlanadi.
+
+## Ovozli darslar (o'qituvchi ovozi)
+
+Har bir dars videosi — animatsiya + o'zbekcha ovoz + subtitr. Video fayl emas: animatsiya
+kodda, ovoz alohida MP3 faylda, ularni vaqt shkalasi bog'laydi.
+
+1. **Ssenariy** — `content/narration/<dars>/script.json`: sahnalar, har bir qadamdagi harakat
+   (bosish, yozish, ajratib ko'rsatish) va o'qituvchi matni. Har bir gap "nima / nega / qayerga /
+   natija / xato chiqsa" turlaridan biri; darsda beshalasi bo'lishi shart.
+2. **Ovoz** — ssenariy o'zgarib push qilinganda GitHub Actions (`narration.yml`) har bir gapni
+   TTS bilan ovozga aylantiradi, haqiqiy uzunligini o'lchaydi va vaqt shkalasini quradi:
+   gap har doim harakat ekranda ko'ringandan **keyin** boshlanadi. Natija repoga saqlanadi:
+   `public/narration/<dars>/narration.mp3`, `subtitles.vtt`, `content/narration/<dars>/timeline.json`.
+3. **Tekshiruv** — sifat hisoboti (`report.json`): har bir gap uzunligi, tezligi, balandligi,
+   uzun pauzalar va nutqni tanish modeli bilan matn solishtiruvi (CER).
+4. **Pleyer** — `NarratedPlayer`: ijro/pauza, joriy tushuntirishni qayta, boshidan, tezlik,
+   ovozni yoqish/o'chirish, balandlik, subtitr, to'liq ekran, matndan tanlash, klaviatura.
+   Audio oldindan to'liq yuklanadi; yuklanmasa dars subtitr bilan davom etadi.
+
+**Provayder:** GitHub secrets'da `AZURE_SPEECH_KEY` va `AZURE_SPEECH_REGION` bo'lsa — Azure
+(o'zbekcha neyron ovoz, tijoriy). Bo'lmasa — Meta MMS ochiq modeli: **faqat sinov**, litsenziyasi
+tijoriy foydalanishni taqiqlaydi; pleyer uni "Sinov ovozi" deb belgilaydi va test bunday ovozni
+tasdiqlangan darsga qo'ydirmaydi. Kalit qo'shilgach: Actions → "Ovozli darslar (TTS)" → Run workflow.
 
 ## Tuzilma
 
@@ -70,13 +95,17 @@ src/
   components/
     ui/                   Asosiy komponentlar
     learning/             ProgressRing, LessonPath, LessonPlayer, CurriculumView, Markdown...
+    narration/            Ovozli dars pleyeri, sahna, audio soati
     marketing/            Landing bo'limlari, jonli mashq, tariflar, FAQ
     layout/, system/, theme/, brand/
   config/                 Brend, imkoniyatlar holati
   lib/
     supabase/             Klientlar, turlar, proxy sessiyasi
     data/                 Ma'lumotlar qatlami (har doim halol holat qaytaradi)
+    narration/            Ssenariy/vaqt shkalasi modeli, sahna holati, subtitr, transliteratsiya
     auth.ts               Joriy foydalanuvchi (token imzosi tekshiriladi)
+content/narration/        Ovozli dars ssenariylari va yaratilgan vaqt shkalalari
+tools/narration/          Ovoz generatori (Azure / MMS), ASR tekshiruvi, MP4 eksport
 tests/db/                 RLS testlari va Supabase shim
 e2e/                      Brauzer testlari (ulanmagan holat)
 e2e-supabase/             To'liq yo'l testlari (CI)
