@@ -1,6 +1,179 @@
 {
   "key": "l1-m1-01",
-  "provider": null,
-  "reason": "TTS provayder mavjud emas",
-  "generatedAt": "2026-11-01T18:14:17.155Z"
+  "provider": "mms",
+  "voice": "facebook/mms-tts-uzb-script_cyrillic",
+  "license": "CC-BY-NC-4.0 (faqat sinov, tijoriy emas)",
+  "generatedAt": "2026-11-01T18:18:22.209Z",
+  "durationSeconds": 159.161,
+  "mp3Seconds": 159.216,
+  "cues": [
+    {
+      "id": "c01",
+      "speech": "Salom! Bu darsda Klod nima ekanini bilib olamiz va unga birinchi savolimizni beramiz.",
+      "seconds": 5.52,
+      "charsPerSecond": 15.4,
+      "rmsDb": -26.1
+    },
+    {
+      "id": "c02",
+      "speech": "Klod — Antropik kompaniyasi yaratgan sunʼiy intellekt yordamchisi.",
+      "seconds": 5.368,
+      "charsPerSecond": 12.3,
+      "rmsDb": -27.5
+    },
+    {
+      "id": "c03",
+      "speech": "U savollaringizga javob beradi va murakkab narsalarni sodda qilib tushuntiradi.",
+      "seconds": 5.836,
+      "charsPerSecond": 13.5,
+      "rmsDb": -26.9
+    },
+    {
+      "id": "c04",
+      "speech": "Xat, post yoki hisobot kabi matnlarni yozadi va tahrirlaydi.",
+      "seconds": 6.118,
+      "charsPerSecond": 9.8,
+      "rmsDb": -27.5
+    },
+    {
+      "id": "c05",
+      "speech": "Maʼlumotni tahlil qilib, qisqa xulosa chiqarib beradi.",
+      "seconds": 3.652,
+      "charsPerSecond": 14.8,
+      "rmsDb": -26.4
+    },
+    {
+      "id": "c06",
+      "speech": "Dasturchilarga esa kod yozishda va xatolarni topishda yordam beradi.",
+      "seconds": 5.278,
+      "charsPerSecond": 12.9,
+      "rmsDb": -26.8
+    },
+    {
+      "id": "c07",
+      "speech": "Keling, amalda koʻramiz. Eng oson yoʻl — brauzer: hech narsa oʻrnatish shart emas.",
+      "seconds": 6.97,
+      "charsPerSecond": 11.8,
+      "rmsDb": -26.6
+    },
+    {
+      "id": "c08",
+      "speech": "Brauzerning yuqorisidagi manzil qatoriga bosamiz.",
+      "seconds": 3.974,
+      "charsPerSecond": 12.3,
+      "rmsDb": -26.5
+    },
+    {
+      "id": "c09",
+      "speech": "Bu yerga klod nuqta ey ay deb yozamiz — bu Klodning rasmiy sayti.",
+      "seconds": 6.232,
+      "charsPerSecond": 10.4,
+      "rmsDb": -25.9
+    },
+    {
+      "id": "c10",
+      "speech": "Enter tugmasini bosamiz va Klod sahifasi ochiladi.",
+      "seconds": 3.666,
+      "charsPerSecond": 13.6,
+      "rmsDb": -26.8
+    },
+    {
+      "id": "c11",
+      "speech": "Birinchi marta kirsangiz, avval imeyl yoki Gugl orqali akkaunt yaratasiz.",
+      "seconds": 5.326,
+      "charsPerSecond": 13.7,
+      "rmsDb": -26.4
+    },
+    {
+      "id": "c12",
+      "speech": "Endi sahifa pastidagi xabar maydoniga bosamiz. Savol shu yerga yoziladi.",
+      "seconds": 6.436,
+      "charsPerSecond": 11.2,
+      "rmsDb": -26.6
+    },
+    {
+      "id": "c13",
+      "speech": "Savolimizni yozamiz: avval kasbimizni aytamiz, keyin aniq misollar soʻraymiz.",
+      "seconds": 6.288,
+      "charsPerSecond": 12.2,
+      "rmsDb": -26.1
+    },
+    {
+      "id": "c14",
+      "speech": "Kasbingizni yozganingiz uchun Klod javobni aynan sizning ishingizga moslab beradi.",
+      "seconds": 5.464,
+      "charsPerSecond": 15,
+      "rmsDb": -26.6
+    },
+    {
+      "id": "c15",
+      "speech": "Oʻng tomondagi yuborish tugmasini bosamiz.",
+      "seconds": 2.886,
+      "charsPerSecond": 14.6,
+      "rmsDb": -25.8
+    },
+    {
+      "id": "c16",
+      "speech": "Bir necha soniyada javob paydo boʻladi. Klod uni qatorma qator yozib chiqadi.",
+      "seconds": 5.614,
+      "charsPerSecond": 13.7,
+      "rmsDb": -26.3
+    },
+    {
+      "id": "c17",
+      "speech": "Javobni oʻqing. Tushunarsiz joy boʻlsa, aniqlashtiruvchi savol yozing — bu odatiy usul.",
+      "seconds": 6.778,
+      "charsPerSecond": 12.8,
+      "rmsDb": -27.1
+    },
+    {
+      "id": "c18",
+      "speech": "Agar biror narsa ishlamasa, xavotir olmang. Koʻp uchraydigan holatlarni koʻrib chiqamiz.",
+      "seconds": 6.324,
+      "charsPerSecond": 13.9,
+      "rmsDb": -26.7
+    },
+    {
+      "id": "c19",
+      "speech": "Sahifa ochilmasa, internet aloqasini tekshirib, sahifani yangilang.",
+      "seconds": 5.412,
+      "charsPerSecond": 12.4,
+      "rmsDb": -26
+    },
+    {
+      "id": "c20",
+      "speech": "Limit tugagani haqida xabar chiqsa, biroz kuting: bepul rejada limit vaqt oʻtib yangilanadi.",
+      "seconds": 7.496,
+      "charsPerSecond": 12.3,
+      "rmsDb": -26.1
+    },
+    {
+      "id": "c21",
+      "speech": "Eng muhimi: Klod ham xato qilishi mumkin. Raqam, sana va nomlarni rasmiy manbadan tekshiring.",
+      "seconds": 7.836,
+      "charsPerSecond": 11.9,
+      "rmsDb": -26.7
+    },
+    {
+      "id": "c22",
+      "speech": "Endi navbat sizda. Avval klod nuqta ey ay saytini oching.",
+      "seconds": 6.188,
+      "charsPerSecond": 9.2,
+      "rmsDb": -26.5
+    },
+    {
+      "id": "c23",
+      "speech": "Oʻz kasbingiz haqida xuddi shunday savol bering.",
+      "seconds": 3.264,
+      "charsPerSecond": 14.7,
+      "rmsDb": -26.4
+    },
+    {
+      "id": "c24",
+      "speech": "Soʻng bitta misolni batafsilroq tushuntirib berishini soʻrang. Keyingi darsda koʻrishguncha!",
+      "seconds": 5.81,
+      "charsPerSecond": 15.8,
+      "rmsDb": -26.5
+    }
+  ]
 }
