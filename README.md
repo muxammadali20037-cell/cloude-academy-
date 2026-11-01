@@ -15,7 +15,8 @@ To'liq reja (arxitektura, sahifalar, database, AI, to'lov, roadmap):
 | 2 · Dizayn tizimi | Tayyor — `/design-system` sahifasi |
 | 3 · Asosiy mahsulot | Keyingi |
 
-Tashqi servislar (Supabase, Claude API, Click, Payme, Telegram, video, TTS) hali ulanmagan.
+Supabase loyihasi yaratilgan (`claude-academy`, Frankfurt), jadvallar 3-fazada qo'shiladi.
+Qolgan tashqi servislar (Claude API, Click, Payme, Telegram, video, TTS) hali ulanmagan.
 Ularning holati `/design-system` sahifasida haqiqiy muhit o'zgaruvchilaridan ko'rsatiladi
 (`NOT CONFIGURED`). Hech qayerda soxta ma'lumot, soxta to'lov yoki soxta video yo'q.
 
