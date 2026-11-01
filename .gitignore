@@ -52,3 +52,6 @@ next-env.d.ts
 
 # dars videolari (render natijasi)
 /tools/lesson-video/out/
+
+# ovoz generatori keshi (TTS bo'laklari)
+/.narration-cache/
