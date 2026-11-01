@@ -27,6 +27,16 @@ har bir qarorni oddiy o'zbek tilida izohlang.
 - Yangi komponent avval `/design-system` sahifasiga qo'shiladi.
 - WCAG 2.2 AA: e2e testdagi axe skani 0 buzilish bilan o'tishi shart.
 
+## Baza
+
+- Migratsiyalar `supabase/migrations/` da; har biri `npm run test` (tests/db, PGlite) bilan
+  tekshiriladi. Yangi jadval → RLS + `revoke` ortiqcha huquqlar + test.
+- Bulutga qo'llash: Supabase MCP `apply_migration`, keyin `get_advisors` (security va performance).
+- Progress, kirish huquqi va baholash faqat SECURITY DEFINER funksiyalar orqali yoziladi —
+  ular `private` sxemadagi yordamchilar bilan foydalanuvchi va huquqni tekshiradi.
+- Darslar `planned → draft → review → published`. AI yozgan matn `review` holatida qoladi,
+  admin tasdiqlamaguncha nashr qilinmaydi.
+
 ## Tekshiruv (har bir o'zgarishdan keyin)
 
 ```bash
