@@ -1,17 +1,17 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
-import { ExerciseDemo } from "./exercise-demo";
+import { LiveExercise } from "./live-exercise";
 
-describe("ExerciseDemo — mashq oqimi", () => {
+describe("LiveExercise — mashq oqimi", () => {
   it("javob tanlanmaguncha tekshirib bo'lmaydi", () => {
-    render(<ExerciseDemo />);
+    render(<LiveExercise />);
     expect(screen.getByRole("button", { name: "Tekshirish" })).toBeDisabled();
   });
 
   it("xato javobda to'liq izoh va o'xshash mashq chiqadi", async () => {
     const user = userEvent.setup();
-    render(<ExerciseDemo />);
+    render(<LiveExercise />);
     await user.click(screen.getByRole("radio", { name: /Hujjatdan oldin/ }));
     await user.click(screen.getByRole("button", { name: "Tekshirish" }));
 
@@ -27,7 +27,7 @@ describe("ExerciseDemo — mashq oqimi", () => {
 
   it("to'g'ri javobda keyingi savolga o'tadi", async () => {
     const user = userEvent.setup();
-    render(<ExerciseDemo />);
+    render(<LiveExercise />);
     await user.click(screen.getByRole("radio", { name: /Hujjatdan keyin/ }));
     await user.click(screen.getByRole("button", { name: "Tekshirish" }));
     expect(screen.getByRole("status")).toHaveTextContent("Toʻgʻri javob");
@@ -37,7 +37,7 @@ describe("ExerciseDemo — mashq oqimi", () => {
 
   it("qayta urinish tanlovni tozalaydi", async () => {
     const user = userEvent.setup();
-    render(<ExerciseDemo />);
+    render(<LiveExercise />);
     await user.click(screen.getByRole("radio", { name: /oʻrtasida/ }));
     await user.click(screen.getByRole("button", { name: "Tekshirish" }));
     await user.click(screen.getByRole("button", { name: "Qayta urinish" }));

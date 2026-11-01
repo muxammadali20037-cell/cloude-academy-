@@ -28,7 +28,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Textarea } from "@/components/ui/textarea";
 import { brand } from "@/config/brand";
 import { getIntegrationStatuses } from "@/lib/integrations";
-import { ExerciseDemo } from "./_components/exercise-demo";
+import { LiveExercise } from "@/components/marketing/live-exercise";
 import { FormDemo } from "./_components/form-demo";
 import { DialogDemo, TabsDemo, TooltipDemo } from "./_components/overlay-demo";
 import { Frame, Section, SubHeading } from "./_components/section";
@@ -342,7 +342,7 @@ Xavfli bandlarni toping.`}</code>
           >
             <div className="grid gap-10 xl:grid-cols-2">
               <Frame className="bg-canvas p-5 sm:p-6">
-                <ExerciseDemo />
+                <LiveExercise />
               </Frame>
               <div className="space-y-5">
                 <SubHeading>Toʻgʻri javobdagi koʻrinish</SubHeading>

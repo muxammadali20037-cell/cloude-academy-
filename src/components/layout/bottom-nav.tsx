@@ -32,7 +32,7 @@ export function BottomNav({
         className,
       )}
     >
-      <ul className="grid grid-cols-5">
+      <ul className="grid" style={{ gridTemplateColumns: `repeat(${items.length}, minmax(0, 1fr))` }}>
         {items.map((item) => {
           const active = isActive(item.href, currentPath);
           const Icon = item.icon;

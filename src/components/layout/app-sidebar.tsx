@@ -18,6 +18,8 @@ export type AppSidebarProps = {
   as?: "aside" | "div";
   /** Menyu nomi (ekran o'quvchi uchun). */
   navLabel?: string;
+  /** Pastki qism uchun qo'shimcha element (masalan, "Chiqish" tugmasi). */
+  footer?: React.ReactNode;
   className?: string;
 };
 
@@ -27,6 +29,7 @@ export function AppSidebar({
   interactive = true,
   as: Root = "aside",
   navLabel = "Asosiy menyu",
+  footer,
   className,
 }: AppSidebarProps) {
   return (
@@ -63,7 +66,10 @@ export function AppSidebar({
             <p className="text-xs text-fg-subtle">Kursga hali yozilmagansiz</p>
           )}
         </div>
-        <ThemeToggle />
+        <div className="flex items-center justify-between gap-2">
+          <ThemeToggle />
+          {footer}
+        </div>
       </div>
     </Root>
   );

@@ -15,4 +15,9 @@ describe("isActive", () => {
   it("mobil menyuda 5 tadan ko'p band yo'q", () => {
     expect(STUDENT_NAV.filter((item) => item.mobile).length).toBeLessThanOrEqual(5);
   });
+
+  it("menyuda faqat ishga tushgan sahifalar bor", () => {
+    expect(STUDENT_NAV.every((item) => item.available)).toBe(true);
+    expect(STUDENT_NAV.map((item) => item.href)).toEqual(["/app", "/app/kurs", "/app/profil"]);
+  });
 });

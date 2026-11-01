@@ -1,0 +1,2 @@
+-- Mahalliy va CI muhiti uchun qo'shimcha ma'lumot kerak emas:
+-- kurs dasturi migratsiya orqali kiritiladi (20261101170400_seed_curriculum.sql).

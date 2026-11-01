@@ -1,9 +1,19 @@
 import type { NextConfig } from "next";
 
+/**
+ * Cache Components o'chirilgan: platformaning deyarli har bir sahifasi
+ * talabaga xos (shaxsiy progress, kirish huquqi), shuning uchun oddiy
+ * "har so'rovda serverda chizish" modeli soddaroq va xatoga chidamliroq.
+ * Ochiq sahifalar (landing, dastur) kerak bo'lsa `revalidate` bilan keshlanadi.
+ */
+const securityHeaders = [
+  { key: "X-Content-Type-Options", value: "nosniff" },
+  { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+  { key: "X-Frame-Options", value: "DENY" },
+  { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
+];
+
 const nextConfig: NextConfig = {
-  /* config options here */
-  cacheComponents: true,
-  partialPrefetching: true,
   turbopack: {
     rules: {
       "*.css": {
@@ -11,6 +21,10 @@ const nextConfig: NextConfig = {
         as: "*.css",
       },
     },
+  },
+  poweredByHeader: false,
+  async headers() {
+    return [{ source: "/:path*", headers: securityHeaders }];
   },
 };
 

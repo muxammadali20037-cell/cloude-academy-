@@ -9,13 +9,14 @@ concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  NEXT_TELEMETRY_DISABLED: 1
+
 jobs:
   check:
     name: Lint, typecheck, test, build, e2e
     runs-on: ubuntu-latest
     timeout-minutes: 20
-    env:
-      NEXT_TELEMETRY_DISABLED: 1
     steps:
       - uses: actions/checkout@v4
 
@@ -27,18 +28,60 @@ jobs:
       - run: npm ci
       - run: npm run lint
       - run: npm run typecheck
-      - run: npm run test
+      - name: Testlar (UI + baza/RLS)
+        run: npm run test
       - run: npm run build
 
       - name: Install Playwright browser
         run: npx playwright install --with-deps chromium
 
-      - name: End-to-end va accessibility testlari
+      - name: E2E (baza ulanmagan holat) va accessibility
         run: npm run test:e2e
 
       - uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: playwright-traces
+          path: test-results/
+          retention-days: 7
+
+  e2e-supabase:
+    name: To'liq yo'l (mahalliy Supabase bilan)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Supabase'ni ishga tushirish (migratsiyalar + kurs dasturi)
+        run: npx supabase start -x studio,imgproxy,edge-runtime,logflare,vector
+
+      - name: Muhit o'zgaruvchilari
+        run: |
+          npx supabase status -o json > supabase-status.json
+          node scripts/supabase-env.mjs < supabase-status.json >> "$GITHUB_ENV"
+
+      - name: Test darslari (faqat CI)
+        run: psql "$SUPABASE_DB_URL" -v ON_ERROR_STOP=1 -f e2e-supabase/fixtures.sql
+
+      - name: Build
+        run: npm run build
+
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Talaba yo'li e2e
+        run: npx playwright test -c playwright.supabase.config.ts
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: supabase-e2e-screens
           path: test-results/
           retention-days: 7

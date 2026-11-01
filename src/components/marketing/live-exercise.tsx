@@ -55,7 +55,7 @@ const QUESTIONS: Question[] = [
   },
 ];
 
-export function ExerciseDemo() {
+export function LiveExercise() {
   const [questionIndex, setQuestionIndex] = useState(0);
   const [selected, setSelected] = useState<string>("");
   const [graded, setGraded] = useState(false);

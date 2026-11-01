@@ -20,7 +20,6 @@ export type IntegrationId =
   | "video"
   | "tts"
   | "sms"
-  | "email"
   | "monitoring";
 
 export type IntegrationStatus = {
@@ -115,16 +114,9 @@ const DEFINITIONS: Definition[] = [
   {
     id: "sms",
     name: "SMS provayder",
-    purpose: "Telefon orqali kirish kodi",
+    purpose: "Telefon raqam orqali kirish kodi",
     phase: 3,
     required: ["SMS_PROVIDER_API_KEY"],
-  },
-  {
-    id: "email",
-    name: "Email provayder",
-    purpose: "Email orqali kirish kodi",
-    phase: 3,
-    required: ["EMAIL_PROVIDER_API_KEY"],
   },
   {
     id: "monitoring",
