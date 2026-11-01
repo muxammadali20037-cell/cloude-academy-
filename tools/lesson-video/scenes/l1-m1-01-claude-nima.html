@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<style>
+  @font-face {
+    font-family: "Onest";
+    src: url("__FONT_DIR__/onest-latin-wght-normal.woff2") format("woff2");
+    font-weight: 100 900;
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  }
+  @font-face {
+    font-family: "Onest";
+    src: url("__FONT_DIR__/onest-latin-ext-wght-normal.woff2") format("woff2");
+    font-weight: 100 900;
+    unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+  }
+  :root {
+    --bg: #0a1030; --surface: #111a40; --line: #222d5e;
+    --fg: #eef0fa; --muted: #a6adcb; --subtle: #8890b0;
+    --violet: #6440f0; --violet-hi: #9c85ff; --violet-soft: #221a5c;
+    --amber: #f2b544; --amber-soft: #33280f;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1920px; height: 1080px; background: var(--bg); color: var(--fg); font-family: "Onest", sans-serif; overflow: hidden; -webkit-font-smoothing: antialiased; }
+  .frame { position: absolute; inset: 0; padding: 120px 160px 150px; display: none; flex-direction: column; }
+  .frame.on { display: flex; }
+
+  .top { display: flex; align-items: center; gap: 22px; color: var(--subtle); font-size: 30px; font-weight: 500; }
+  .mark { width: 52px; height: 52px; border-radius: 14px; background: var(--violet); display: grid; place-items: center; }
+  .body { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+
+  h1 { font-size: 168px; font-weight: 650; letter-spacing: -0.035em; line-height: 1; }
+  h2 { font-size: 92px; font-weight: 650; letter-spacing: -0.025em; line-height: 1.06; max-width: 1500px; }
+  .lead { margin-top: 40px; font-size: 44px; line-height: 1.4; color: var(--muted); max-width: 1400px; }
+  .lead b { color: var(--fg); font-weight: 600; }
+
+  .list { margin-top: 64px; display: grid; grid-template-columns: 1fr 1fr; gap: 28px 64px; max-width: 1560px; }
+  .item { display: flex; align-items: center; gap: 28px; font-size: 50px; font-weight: 500; }
+  .dot { width: 22px; height: 22px; border-radius: 99px; background: var(--violet-hi); flex-shrink: 0; }
+
+  .cols { margin-top: 72px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 36px; }
+  .col { background: var(--surface); border-radius: 28px; padding: 48px 44px; }
+  .col .k { font-size: 32px; color: var(--subtle); font-weight: 500; }
+  .col .v { margin-top: 14px; font-size: 54px; font-weight: 650; letter-spacing: -0.015em; }
+  .col .s { margin-top: 10px; font-size: 34px; color: var(--muted); }
+
+  .warn { margin-top: 56px; display: inline-flex; align-items: center; gap: 22px; align-self: flex-start; background: var(--amber-soft); color: var(--amber); padding: 22px 34px; border-radius: 20px; font-size: 40px; font-weight: 600; }
+
+  .prompt { margin-top: 60px; background: var(--surface); border: 2px solid var(--line); border-radius: 28px; padding: 48px 56px; font-size: 46px; line-height: 1.45; max-width: 1560px; }
+  .prompt .label { font-size: 30px; color: var(--violet-hi); font-weight: 600; margin-bottom: 18px; }
+  .caret { display: inline-block; width: 4px; height: 52px; background: var(--violet-hi); vertical-align: -8px; margin-left: 6px; }
+
+  .path { position: absolute; left: 160px; right: 160px; bottom: 84px; display: flex; gap: 12px; }
+  .path span { flex: 1; height: 10px; border-radius: 99px; background: rgba(238, 240, 250, 0.12); }
+  .path span.done { background: var(--violet); }
+  .path span.now { background: var(--violet-hi); box-shadow: 0 0 0 6px rgba(156, 133, 255, 0.18); }
+
+  /* Kirish animatsiyasi: elementlar ketma-ket paydo bo'ladi */
+  @keyframes rise { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: none; } }
+  .a { opacity: 0; animation: rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+  .d1 { animation-delay: 0.1s; } .d2 { animation-delay: 0.25s; } .d3 { animation-delay: 0.4s; }
+  .d4 { animation-delay: 0.55s; } .d5 { animation-delay: 0.7s; } .d6 { animation-delay: 0.85s; }
+</style>
+</head>
+<body>
+  <!-- 1. Sarlavha -->
+  <section class="frame" data-dur="5">
+    <div class="top a d1"><div class="mark"><svg width="30" height="30" viewBox="0 0 28 28"><path d="M5 22h5V17h5v-5h6" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="22" cy="6" r="2.4" fill="#fff"/></svg></div>1-daraja, 1-dars</div>
+    <div class="body"><h1 class="a d2">Claude nima?</h1><p class="lead a d3">Bir daqiqada: nima, nima qila oladi, qayerda ishlaydi.</p></div>
+  </section>
+
+  <!-- 2. Ta'rif -->
+  <section class="frame" data-dur="7">
+    <div class="top a d1">Claude nima?</div>
+    <div class="body">
+      <h2 class="a d2">Claude — Anthropic kompaniyasi yaratgan sunʼiy intellekt yordamchisi.</h2>
+      <p class="lead a d3">Texnik nomi — <b>katta til modeli</b> (LLM): siz yozgan matnni tushunadi va javob yozadi.</p>
+    </div>
+  </section>
+
+  <!-- 3. Imkoniyatlar -->
+  <section class="frame" data-dur="8">
+    <div class="top a d1">Claude nima?</div>
+    <div class="body">
+      <h2 class="a d2">U nima qila oladi</h2>
+      <div class="list">
+        <div class="item a d3"><span class="dot"></span>Savollarga javob beradi</div>
+        <div class="item a d4"><span class="dot"></span>Matn yozadi va tahrirlaydi</div>
+        <div class="item a d5"><span class="dot"></span>Maʼlumotni tahlil qiladi</div>
+        <div class="item a d6"><span class="dot"></span>Kod yozadi</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Qayerda -->
+  <section class="frame" data-dur="8">
+    <div class="top a d1">Claude nima?</div>
+    <div class="body">
+      <h2 class="a d2">Qayerda ishlaydi</h2>
+      <div class="cols">
+        <div class="col a d3"><div class="k">Veb</div><div class="v">claude.ai</div><div class="s">Brauzerda</div></div>
+        <div class="col a d4"><div class="k">Kompyuter</div><div class="v">Claude Desktop</div><div class="s">Mac va Windows</div></div>
+        <div class="col a d5"><div class="k">Telefon</div><div class="v">Ilova</div><div class="s">iOS va Android</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Ogohlantirish -->
+  <section class="frame" data-dur="7">
+    <div class="top a d1">Claude nima?</div>
+    <div class="body">
+      <h2 class="a d2">Claude ham xato qilishi mumkin.</h2>
+      <p class="lead a d3">Raqam, sana, nom va manbalarni rasmiy manbadan tekshiring.</p>
+      <div class="warn a d4">Muhim maʼlumot — doim tekshiriladi</div>
+    </div>
+  </section>
+
+  <!-- 6. Vazifa -->
+  <section class="frame" data-dur="9">
+    <div class="top a d1">Amaliy vazifa</div>
+    <div class="body">
+      <h2 class="a d2">Birinchi savolingizni bering</h2>
+      <div class="prompt a d3">
+        <div class="label">claude.ai ga yozing</div>
+        Mening kasbim … . Menga Claude ish kunimda qaysi 3 ta vazifada yordam bera olishini aniq misollar bilan tushuntir.<span class="caret"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Keyingi -->
+  <section class="frame" data-dur="5">
+    <div class="top a d1">Keyingi dars</div>
+    <div class="body"><h2 class="a d2">Anthropic va Claude ekotizimi</h2><p class="lead a d3">Claude Code, Claude in Chrome va boshqa mahsulotlar.</p></div>
+  </section>
+
+  <div class="path" id="path"></div>
+
+  <script>
+    const frames = [...document.querySelectorAll(".frame")];
+    const path = document.getElementById("path");
+    frames.forEach(() => path.appendChild(document.createElement("span")));
+    window.sceneCount = frames.length;
+    window.sceneDur = (i) => Number(frames[i].dataset.dur);
+    // i-sahnani ko'rsatadi va animatsiyalarni t soniyaga qo'yadi
+    window.showScene = (i, t) => {
+      frames.forEach((f, j) => f.classList.toggle("on", j === i));
+      [...path.children].forEach((s, j) => { s.className = j < i ? "done" : j === i ? "now" : ""; });
+      document.getAnimations().forEach((a) => { a.pause(); a.currentTime = t * 1000; });
+    };
+  </script>
+</body>
+</html>

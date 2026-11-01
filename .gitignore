@@ -49,3 +49,6 @@ next-env.d.ts
 
 # local scratch
 /.scratch/
+
+# dars videolari (render natijasi)
+/tools/lesson-video/out/
