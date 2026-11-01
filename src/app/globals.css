@@ -1,26 +1,224 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* Qorong'i tema <html class="dark"> orqali yoqiladi (theme-script.tsx). */
+@custom-variant dark (&:where(.dark, .dark *));
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+/*
+ * 1. PALITRA
+ * Tailwind'ning standart ranglari o'chiriladi: interfeysda faqat shu
+ * palitradagi ranglar ishlatiladi. Komponentlar palitrani to'g'ridan-to'g'ri
+ * emas, pastdagi semantik tokenlar (canvas, fg, primary...) orqali oladi.
+ */
+@theme {
+  --color-*: initial;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+  --color-white: #ffffff;
+
+  /* Deep navy — asosiy fon va matn */
+  --color-navy-50: #f4f5fa;
+  --color-navy-100: #ebedf5;
+  --color-navy-200: #e1e4ee;
+  --color-navy-300: #c9cee0;
+  --color-navy-400: #8890b0;
+  --color-navy-500: #5f6789;
+  --color-navy-600: #4a5274;
+  --color-navy-700: #222d5e;
+  --color-navy-800: #182250;
+  --color-navy-900: #111a40;
+  --color-navy-950: #0a1030;
+
+  /* Electric violet — faqat signal: asosiy harakat, progress, joriy joy */
+  --color-violet-50: #f3f0ff;
+  --color-violet-100: #e6e0ff;
+  --color-violet-200: #cec2ff;
+  --color-violet-300: #b9a9ff;
+  --color-violet-400: #9c85ff;
+  --color-violet-500: #7b5cff;
+  --color-violet-600: #6440f0;
+  --color-violet-700: #5230d6;
+  --color-violet-800: #3f23a8;
+  --color-violet-900: #221a5c;
+
+  /* Holat ranglari — faqat ma'noli joyda: to'g'ri, xato, ogohlantirish */
+  --color-green-50: #e7f6ef;
+  --color-green-400: #45d29b;
+  --color-green-700: #0f7a55;
+  --color-green-950: #0f2e2a;
+  --color-red-50: #fdecee;
+  --color-red-400: #ff7a8c;
+  --color-red-700: #c2283f;
+  --color-red-950: #3a1430;
+  --color-amber-50: #fff4db;
+  --color-amber-400: #f2b544;
+  --color-amber-800: #8a5a00;
+  --color-amber-950: #33280f;
+
+  /* 2. TIPOGRAFIYA — Onest: o'zbek lotin (oʻ, gʻ, ʼ) va kirill harflari bor */
+  --font-sans: "Onest Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, "SFMono-Regular", monospace;
+
+  /* Shkala: 1.25 nisbat (major third), asos 16px */
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1.1rem;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.35rem;
+  --text-base: 1rem;
+  --text-base--line-height: 1.6rem;
+  --text-lg: 1.125rem;
+  --text-lg--line-height: 1.7rem;
+  --text-xl: 1.25rem;
+  --text-xl--line-height: 1.8rem;
+  --text-2xl: 1.5625rem;
+  --text-2xl--line-height: 2.1rem;
+  --text-3xl: 1.953rem;
+  --text-3xl--line-height: 2.4rem;
+  --text-4xl: 2.441rem;
+  --text-4xl--line-height: 2.8rem;
+  --text-5xl: 3.052rem;
+  --text-5xl--line-height: 3.3rem;
+
+  /* 3. SHAKL — radius ierarxiyasi: boshqaruv < karta < panel */
+  --radius-control: 0.625rem;
+  --radius-card: 1rem;
+  --radius-panel: 1.25rem;
+
+  /* Soya faqat ustki qatlamlarda (dialog, tooltip) — kartalarda emas */
+  --shadow-overlay: 0 24px 48px -16px rgb(10 16 48 / 0.32), 0 2px 8px rgb(10 16 48 / 0.08);
+
+  /* 4. HARAKAT */
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  --animate-signal: signal 2.4s var(--ease-out-quint) infinite;
+
+  @keyframes signal {
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 color-mix(in oklab, var(--primary) 45%, transparent);
+    }
+    50% {
+      box-shadow: 0 0 0 4px color-mix(in oklab, var(--primary) 0%, transparent);
+    }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* 5. SEMANTIK TOKENLAR — yorug' tema */
+:root {
+  color-scheme: light;
+  --canvas: var(--color-white);
+  --surface: var(--color-navy-50);
+  --surface-2: var(--color-navy-100);
+  --line: var(--color-navy-200);
+  --line-strong: #7f87a6; /* input chegarasi: oq fonda 3.55:1 */
+  --fg: var(--color-navy-950);
+  --fg-muted: var(--color-navy-600);
+  --fg-subtle: var(--color-navy-500);
+  --primary: var(--color-violet-600); /* oq matn bilan 5.94:1 */
+  --primary-hover: var(--color-violet-700);
+  --on-primary: var(--color-white);
+  --accent-soft: var(--color-violet-50);
+  --accent-fg: var(--color-violet-700);
+  --ring: var(--color-violet-600);
+  --success: var(--color-green-700);
+  --success-soft: var(--color-green-50);
+  --danger: var(--color-red-700);
+  --danger-soft: var(--color-red-50);
+  --warning: var(--color-amber-800);
+  --warning-soft: var(--color-amber-50);
+  --scrim: rgb(10 16 48 / 0.55);
+}
+
+/* Qorong'i tema */
+.dark {
+  color-scheme: dark;
+  --canvas: var(--color-navy-950);
+  --surface: var(--color-navy-900);
+  --surface-2: var(--color-navy-800);
+  --line: var(--color-navy-700);
+  --line-strong: #66709c; /* navy fonda 3.86:1 */
+  --fg: #eef0fa;
+  --fg-muted: #a6adcb;
+  --fg-subtle: var(--color-navy-400);
+  --primary: var(--color-violet-600);
+  --primary-hover: #7353f7; /* oq matn bilan 4.87:1 */
+  --on-primary: var(--color-white);
+  --accent-soft: var(--color-violet-900);
+  --accent-fg: #c9bdff;
+  --ring: var(--color-violet-400);
+  --success: var(--color-green-400);
+  --success-soft: var(--color-green-950);
+  --danger: var(--color-red-400);
+  --danger-soft: var(--color-red-950);
+  --warning: var(--color-amber-400);
+  --warning-soft: var(--color-amber-950);
+  --scrim: rgb(3 6 20 / 0.7);
+}
+
+/* Semantik tokenlarni Tailwind klasslariga ulash: bg-canvas, text-fg, border-line... */
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-fg-subtle: var(--fg-subtle);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-on-primary: var(--on-primary);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-fg: var(--accent-fg);
+  --color-ring: var(--ring);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-scrim: var(--scrim);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: var(--canvas);
+    color: var(--fg);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv11";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Klaviatura fokusi doim ko'rinadi */
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background-color: color-mix(in oklab, var(--primary) 28%, transparent);
+  }
+
+  code,
+  kbd,
+  pre {
+    font-family: var(--font-mono);
+  }
+}
+
+/* "Kamroq harakat" tanlangan bo'lsa, animatsiyalar o'chiriladi */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
