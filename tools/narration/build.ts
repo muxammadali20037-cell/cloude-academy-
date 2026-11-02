@@ -7,7 +7,8 @@
  *   ... --force                                       # o'zgarmagan bo'lsa ham qayta yaratish
  *
  * Provayder (--provider auto, standart):
- *   azure — AZURE_SPEECH_KEY va AZURE_SPEECH_REGION bo'lsa (ishlab chiqarish ovozi);
+ *   voicelab — VOICELAB_API_KEY bo'lsa va ssenariyda voice.voicelab bo'lsa;
+ *   azure — AZURE_SPEECH_KEY va AZURE_SPEECH_REGION bo'lsa;
  *   mms   — aks holda, Python'da torch+transformers bo'lsa (faqat sinov ovozi);
  *   none  — ovoz yaratilmaydi: subtitrli, ovozsiz zaxira vaqt shkalasi.
  *
@@ -32,7 +33,7 @@ import { characterErrorRate, normalizeForComparison, spokenText } from "../../sr
 import { latinToCyrillic } from "../../src/lib/narration/translit.ts";
 import { buildTimeline, missingPurposes, timelineProblems } from "../../src/lib/narration/timeline.ts";
 import { toWebVtt } from "../../src/lib/narration/vtt.ts";
-import { azureProvider, MAX_INTERNAL_SILENCE, mmsAvailable, mmsProvider, type Provider } from "./providers.ts";
+import { azureProvider, MAX_INTERNAL_SILENCE, mmsAvailable, mmsProvider, voicelabProvider, type Provider } from "./providers.ts";
 import { longestInternalSilence, rmsDb, writeWav, type Pcm } from "./wav.ts";
 
 const run = promisify(execFile);
@@ -41,7 +42,7 @@ const CONTENT = join(ROOT, "content", "narration");
 const PUBLIC = join(ROOT, "public", "narration");
 const CACHE = join(ROOT, ".narration-cache");
 
-type ProviderChoice = "auto" | "azure" | "mms" | "none";
+type ProviderChoice = "auto" | "voicelab" | "azure" | "mms" | "none";
 
 /* ---- Sifat chegaralari: bundan tashqari bo'lsa, audio buzilgan deb hisoblanadi ---- */
 const MIN_CUE_SECONDS = 0.5;
@@ -62,15 +63,18 @@ function parseArgs(argv: string[]) {
     else if (value === "--provider") args.provider = argv[++i] as ProviderChoice;
     else args.keys.push(value);
   }
-  if (!["auto", "azure", "mms", "none"].includes(args.provider)) throw new Error(`noma'lum provayder: ${args.provider}`);
+  if (!["auto", "voicelab", "azure", "mms", "none"].includes(args.provider)) throw new Error(`noma'lum provayder: ${args.provider}`);
   return args;
 }
 
 async function chooseProvider(choice: ProviderChoice, script: NarrationScript): Promise<Provider | null> {
   const env = process.env;
   if (choice === "none") return null;
+  if (choice === "voicelab") return voicelabProvider(script, env, CACHE);
   if (choice === "azure") return azureProvider(script, env, CACHE);
   if (choice === "mms") return mmsProvider(script, env, CACHE);
+  // Tartib: VoiceLab (tanlangan o'zbekcha ovoz) → Azure → MMS (faqat sinov).
+  if (env.VOICELAB_API_KEY && script.voice.voicelab) return voicelabProvider(script, env, CACHE);
   if (env.AZURE_SPEECH_KEY && env.AZURE_SPEECH_REGION) return azureProvider(script, env, CACHE);
   if (await mmsAvailable(env)) return mmsProvider(script, env, CACHE);
   return null;

@@ -3,8 +3,8 @@ name: Ovozli darslar (TTS)
 # Darslarning o'qituvchi ovozini yaratadi va repoga saqlaydi.
 #  - Ssenariy (content/narration/*/script.json) o'zgarganda avtomatik ishlaydi.
 #  - Qo'lda: Actions → "Ovozli darslar (TTS)" → Run workflow.
-# Provayder: AZURE_SPEECH_KEY va AZURE_SPEECH_REGION secrets bo'lsa — Azure
-# (ishlab chiqarish ovozi); bo'lmasa — Meta MMS (faqat sinov ovozi, tijoriy emas).
+# Provayder: VOICELAB_API_KEY secret bo'lsa — VoiceLab; AZURE_SPEECH_KEY va
+# AZURE_SPEECH_REGION bo'lsa — Azure; bo'lmasa — Meta MMS (faqat sinov, tijoriy emas).
 
 on:
   push:
@@ -15,9 +15,9 @@ on:
   workflow_dispatch:
     inputs:
       provider:
-        description: "auto — Azure kaliti bo'lsa Azure, bo'lmasa MMS (sinov)"
+        description: "auto — VoiceLab kaliti bo'lsa VoiceLab, keyin Azure, bo'lmasa MMS (sinov)"
         type: choice
-        options: [auto, azure, mms]
+        options: [auto, voicelab, azure, mms]
         default: auto
       force:
         description: "O'zgarmagan darslarni ham qayta yaratish"
@@ -71,6 +71,7 @@ jobs:
 
       - name: Ovoz yaratish
         env:
+          VOICELAB_API_KEY: ${{ secrets.VOICELAB_API_KEY }}
           AZURE_SPEECH_KEY: ${{ secrets.AZURE_SPEECH_KEY }}
           AZURE_SPEECH_REGION: ${{ secrets.AZURE_SPEECH_REGION }}
           # Yaratilgan ovozni nutqni tanish modeli bilan matnga qaytarib solishtirish.

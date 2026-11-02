@@ -4,6 +4,9 @@
  *  azure — Microsoft Azure Speech, o'zbekcha neyron ovozlar (uz-UZ-MadinaNeural,
  *          uz-UZ-SardorNeural). Tijoriy foydalanishga ruxsat bor. Ishlab chiqarish uchun.
  *          Kalitlar: AZURE_SPEECH_KEY, AZURE_SPEECH_REGION (GitHub secrets).
+ *  voicelab — VoiceLab (voicelab.uz), o'zbekcha ovozlar. Kalit: VOICELAB_API_KEY
+ *          (GitHub secrets). Tijoriy ruxsat tarifga bog'liq: admin tekshirib, ssenariyda
+ *          voice.voicelab.commercialLicense = true qiladi.
  *  mms   — Meta MMS-TTS (facebook/mms-tts-uzb-script_cyrillic), ochiq model.
  *          Litsenziya CC-BY-NC-4.0: tijoriy foydalanish TAQIQLANGAN. Faqat tizimni
  *          sinash uchun. Pleyer bunday ovozni "sinov ovozi" deb belgilaydi.
@@ -21,7 +24,7 @@ import { latinToCyrillic } from "../../src/lib/narration/translit.ts";
 import type { NarrationScript } from "../../src/lib/narration/schema.ts";
 import { concat, longestInternalSilence, readWav, silence, trimSilence, writeWav, type Pcm } from "./wav.ts";
 
-export type ProviderId = "azure" | "mms";
+export type ProviderId = "azure" | "voicelab" | "mms";
 export type CueSpeech = { id: string; text: string };
 
 export type Provider = {
@@ -95,6 +98,80 @@ export function azureProvider(script: NarrationScript, env: NodeJS.ProcessEnv, c
       return result;
     },
   };
+}
+
+/* ---------------- VoiceLab ---------------- */
+
+const VOICELAB_API = "https://api.voicelab.uz";
+
+/** Ovoz nomlarini solishtirish: katta-kichik harf, tutuq belgilari va bo'shliqlar hisobga olinmaydi. */
+export function sameVoiceName(a: string, b: string) {
+  const normalize = (value: string) => value.toLowerCase().replace(/[ʻʼ‘’`'\s]/g, "");
+  return normalize(a) === normalize(b);
+}
+
+type VoiceLabVoice = { id: string; display_name: string; language: string };
+
+async function voicelabFetch(path: string, key: string, init: RequestInit = {}): Promise<Response> {
+  for (let attempt = 1; ; attempt += 1) {
+    const response = await fetch(`${VOICELAB_API}${path}`, {
+      ...init,
+      headers: { Authorization: `Bearer ${key}`, "User-Agent": "claude-academy-narration", ...init.headers },
+    });
+    if (response.ok) return response;
+    const retryable = response.status === 429 || response.status >= 500;
+    if (!retryable || attempt >= 4) {
+      const body = await response.text().catch(() => "");
+      throw new Error(`VoiceLab xatosi: HTTP ${response.status} ${path} ${body.slice(0, 300)}`.trim());
+    }
+    const retryAfter = Number(response.headers.get("retry-after"));
+    await new Promise((done) => setTimeout(done, Number.isFinite(retryAfter) && retryAfter > 0 ? retryAfter * 1000 : 1000 * 2 ** attempt));
+  }
+}
+
+export function voicelabProvider(script: NarrationScript, env: NodeJS.ProcessEnv, cacheDir: string): Provider {
+  const key = env.VOICELAB_API_KEY?.trim();
+  if (!key) throw new Error("VOICELAB_API_KEY kiritilmagan");
+  const settings = script.voice.voicelab;
+  if (!settings) throw new Error("ssenariyda voice.voicelab sozlamasi yo'q");
+  let resolved: VoiceLabVoice | null = null;
+
+  async function resolveVoice() {
+    if (resolved) return resolved;
+    const response = await voicelabFetch("/v1/voices?language=uz", key!);
+    const { data } = (await response.json()) as { data: VoiceLabVoice[] };
+    resolved = data.find((voice) => voice.id === settings!.voice || sameVoiceName(voice.display_name, settings!.voice)) ?? null;
+    if (!resolved) {
+      const names = data.map((voice) => voice.display_name).join(", ");
+      throw new Error(`VoiceLab'da "${settings!.voice}" ovozi topilmadi. Mavjud o'zbekcha ovozlar: ${names}`);
+    }
+    return resolved;
+  }
+
+  const provider: Provider = {
+    id: "voicelab",
+    voice: settings.voice,
+    license: settings.commercialLicense ? "VoiceLab (tijoriy ruxsat admin tomonidan tasdiqlangan)" : "VoiceLab (tijoriy ruxsat hali tasdiqlanmagan)",
+    commercialUse: settings.commercialLicense,
+    async synthesize(cues) {
+      const voice = await resolveVoice();
+      provider.voice = voice.display_name;
+      const result: Record<string, Pcm> = {};
+      for (const cue of cues) {
+        const body = JSON.stringify({ text: asciiApostrophes(cue.text), language: "uz", voice_id: voice.id, speed: settings.speed });
+        result[cue.id] = await cached(join(cacheDir, "voicelab"), body, async () => {
+          const response = await voicelabFetch("/v1/tts", key, {
+            method: "POST",
+            headers: { "Content-Type": "application/json", "Idempotency-Key": sha(body) },
+            body,
+          });
+          return trimSilence(readWav(Buffer.from(await response.arrayBuffer())));
+        });
+      }
+      return result;
+    },
+  };
+  return provider;
 }
 
 /* ---------------- Meta MMS (sinov) ---------------- */

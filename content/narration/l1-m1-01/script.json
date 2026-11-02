@@ -9,7 +9,8 @@
   ],
   "voice": {
     "azure": { "name": "uz-UZ-MadinaNeural", "rate": "-5%" },
-    "mms": { "model": "facebook/mms-tts-uzb-script_cyrillic", "speakingRate": 0.92, "seed": 7 }
+    "mms": { "model": "facebook/mms-tts-uzb-script_cyrillic", "speakingRate": 0.92, "seed": 7 },
+    "voicelab": { "voice": "Abdulhay Otaxoʻjayev", "speed": 0.95, "commercialLicense": false }
   },
   "lexicon": [
     { "match": "claude.ai", "say": "klod nuqta ey ay" },

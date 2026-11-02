@@ -108,6 +108,14 @@ export type ScriptCue = z.infer<typeof scriptCueSchema>;
 export const voiceSchema = z.object({
   azure: z.object({ name: z.string().min(1), rate: z.string().regex(/^[+-]?\d{1,2}%$/) }),
   mms: z.object({ model: z.string().min(1), speakingRate: z.number().min(0.6).max(1.4), seed: z.number().int() }),
+  /** VoiceLab (voicelab.uz): ovoz nomi yoki id; tijoriy ruxsatni admin tarif shartlaridan tekshirib belgilaydi. */
+  voicelab: z
+    .object({
+      voice: z.string().min(1),
+      speed: z.number().min(0.5).max(2).default(1),
+      commercialLicense: z.boolean().default(false),
+    })
+    .optional(),
 });
 
 export const scriptSchema = z
@@ -195,7 +203,7 @@ export type TimelineCue = z.infer<typeof timelineCueSchema>;
 export const audioInfoSchema = z.object({
   src: z.string().min(1),
   /** azure — ishlab chiqarish uchun; mms — faqat sinov (notijorat litsenziya). */
-  provider: z.enum(["azure", "mms"]),
+  provider: z.enum(["azure", "voicelab", "mms"]),
   voice: z.string(),
   license: z.string(),
   commercialUse: z.boolean(),

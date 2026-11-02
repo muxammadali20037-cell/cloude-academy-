@@ -42,7 +42,8 @@ har bir qarorni oddiy o'zbek tilida izohlang.
 - Ssenariy `content/narration/<dars>/script.json`; ovoz GitHub Actions'da (`narration.yml`) yaratiladi.
 - Gap faqat harakat ekranda ko'ringandan keyin boshlanadi (`timelineProblems` tekshiradi);
   ekranda ko'rsatilmagan harakat haqida gapirilmaydi.
-- MMS — faqat sinov ovozi (CC-BY-NC). Tasdiqlangan (`approved`) darsda faqat tijoriy ovoz (Azure).
+- Provayder tartibi: VoiceLab (`VOICELAB_API_KEY`) → Azure → MMS. MMS — faqat sinov ovozi (CC-BY-NC).
+  Tasdiqlangan (`approved`) darsda faqat tijoriy ruxsati tasdiqlangan ovoz.
 - Aytiladigan matnda raqam yo'q — so'z bilan yoziladi; inglizcha nomlar `lexicon` orqali o'qiladi.
 
 ## Tekshiruv (har bir o'zgarishdan keyin)

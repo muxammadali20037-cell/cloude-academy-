@@ -330,7 +330,7 @@ function PlayerNotice({ timeline, status, onRetry }: { timeline: Timeline; statu
       )}
       {timeline.audio && !timeline.audio.commercialUse && (
         <Badge variant="warning" title={timeline.audio.license}>
-          Sinov ovozi · ochiq model, tijoriy emas
+          {timeline.audio.provider === "mms" ? "Sinov ovozi · ochiq model, tijoriy emas" : "Sinov ovozi · tijoriy ruxsat tasdiqlanmagan"}
         </Badge>
       )}
       {timeline.audio?.commercialUse && <span>Ovoz: {timeline.audio.voice}</span>}

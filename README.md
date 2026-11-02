@@ -73,10 +73,16 @@ kodda, ovoz alohida MP3 faylda, ularni vaqt shkalasi bog'laydi.
    ovozni yoqish/o'chirish, balandlik, subtitr, to'liq ekran, matndan tanlash, klaviatura.
    Audio oldindan to'liq yuklanadi; yuklanmasa dars subtitr bilan davom etadi.
 
-**Provayder:** GitHub secrets'da `AZURE_SPEECH_KEY` va `AZURE_SPEECH_REGION` bo'lsa — Azure
-(o'zbekcha neyron ovoz, tijoriy). Bo'lmasa — Meta MMS ochiq modeli: **faqat sinov**, litsenziyasi
-tijoriy foydalanishni taqiqlaydi; pleyer uni "Sinov ovozi" deb belgilaydi va test bunday ovozni
-tasdiqlangan darsga qo'ydirmaydi. Kalit qo'shilgach: Actions → "Ovozli darslar (TTS)" → Run workflow.
+**Provayder** (GitHub secrets'dagi kalitga qarab, shu tartibda):
+
+1. **VoiceLab** (voicelab.uz) — `VOICELAB_API_KEY`. Ovoz ssenariyda nomi bilan tanlanadi
+   (`voice.voicelab.voice`). Tijoriy ruxsat tarifga bog'liq: tarif shartlarini tekshirib,
+   `commercialLicense: true` qilinadi; unga qadar pleyer "tijoriy ruxsat tasdiqlanmagan" deb ko'rsatadi.
+2. **Azure** — `AZURE_SPEECH_KEY` va `AZURE_SPEECH_REGION` (o'zbekcha neyron ovoz, tijoriy).
+3. **Meta MMS** — kalit kerak emas, lekin **faqat sinov**: litsenziyasi tijoriy foydalanishni taqiqlaydi.
+
+Test tijoriy ruxsati tasdiqlanmagan ovozni tasdiqlangan (`approved`) darsga qo'ydirmaydi.
+Kalit qo'shilgach: Actions → "Ovozli darslar (TTS)" → Run workflow.
 
 ## Tuzilma
 

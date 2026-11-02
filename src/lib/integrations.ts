@@ -105,6 +105,7 @@ const DEFINITIONS: Definition[] = [
     providers: {
       selector: "TTS_PROVIDER",
       options: {
+        voicelab: ["VOICELAB_API_KEY"],
         azure: ["AZURE_SPEECH_KEY", "AZURE_SPEECH_REGION"],
         elevenlabs: ["ELEVENLABS_API_KEY"],
         aisha: ["AISHA_API_KEY"],

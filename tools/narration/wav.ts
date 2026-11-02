@@ -34,8 +34,18 @@ export function readWav(buffer: Buffer): Pcm {
   }
 
   if (!format || !data) throw new Error("WAV: fmt yoki data bo'limi topilmadi");
-  if ((format.code !== 1 && format.code !== 0xfffe) || format.bits !== 16 || format.channels !== 1) {
-    throw new Error(`WAV: faqat 16-bit mono PCM qo'llanadi (format=${format.code}, bits=${format.bits}, kanal=${format.channels})`);
+  if (format.channels !== 1) throw new Error(`WAV: faqat mono qo'llanadi (kanal=${format.channels})`);
+  // 32-bit float (ba'zi servislar shunday qaytaradi) → 16-bit PCM.
+  if (format.bits === 32 && (format.code === 3 || format.code === 0xfffe)) {
+    const count = Math.floor(data.length / 4);
+    const samples = new Int16Array(count);
+    for (let i = 0; i < count; i += 1) {
+      samples[i] = Math.max(-32768, Math.min(32767, Math.round(data.readFloatLE(i * 4) * 32767)));
+    }
+    return { sampleRate: format.sampleRate, samples };
+  }
+  if ((format.code !== 1 && format.code !== 0xfffe) || format.bits !== 16) {
+    throw new Error(`WAV: faqat 16-bit PCM yoki 32-bit float qo'llanadi (format=${format.code}, bits=${format.bits})`);
   }
   const usable = data.length - (data.length % 2);
   const copy = new ArrayBuffer(usable);
