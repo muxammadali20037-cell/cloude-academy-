@@ -78,7 +78,9 @@ jobs:
           NARRATION_ASR: "1"
         run: npm run narration -- --all --provider "${{ inputs.provider || 'auto' }}" ${{ inputs.force && '--force' || '' }}
 
-      - name: Vaqt shkalasi testlari
+      - name: Vaqt shkalasi testlari (ovoz joriy ssenariyga mosligi ham)
+        env:
+          NARRATION_STRICT: "1"
         run: npx vitest run src/lib/narration
 
       - name: Natijani repoga saqlash
