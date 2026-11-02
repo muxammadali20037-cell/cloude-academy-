@@ -4,18 +4,18 @@
   "lessonId": "f19a4e16-518f-4283-96e0-185d6d02e55b",
   "title": "Claude nima?",
   "status": "review",
-  "scriptHash": "910e54d2e9751bf7fa5c7e38488ffa4b85158c2cc23054249b65a032a5ee0f58",
+  "scriptHash": "72e168c14db37f7f41636e77117d41a91e260a1aa98d7045b2bb16716f77350b",
   "duration": 161.073,
   "audio": {
-    "src": "/narration/l1-m1-01/narration.mp3?v=3048c6475c8a",
+    "src": "/narration/l1-m1-01/narration.mp3?v=dfd31af38344",
     "provider": "mms",
     "voice": "facebook/mms-tts-uzb-script_cyrillic",
     "license": "CC-BY-NC-4.0 (faqat sinov, tijoriy emas)",
     "commercialUse": false,
-    "generatedAt": "2026-11-01T18:38:06.695Z",
+    "generatedAt": "2026-11-02T01:55:42.432Z",
     "bytes": 1289325
   },
-  "subtitles": "/narration/l1-m1-01/subtitles.vtt?v=3048c6475c8a",
+  "subtitles": "/narration/l1-m1-01/subtitles.vtt?v=dfd31af38344",
   "scenes": {
     "intro": {
       "type": "title",
